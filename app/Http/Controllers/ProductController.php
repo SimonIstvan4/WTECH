@@ -7,16 +7,95 @@ use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Order_item;
 use App\Models\ProductVariant;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+
+    public function adminCreate()
+    {
+        $categories = Category::orderBy('Name')->get();
+        $brands = Brand::orderBy('Name')->get();
+        
+        return view('admin_pridat', compact('categories', 'brands'));
+    }
+
+    public function adminStore(Request $request)
+    {
+        $request->validate([
+            'Name' => 'required|string|max:255',
+            'Price' => 'required|numeric',
+            'Category_id' => 'required|exists:Category,id',
+            'Brand_id' => 'required|exists:Brand,id',
+            'variants' => 'required|array|min:1',
+            'Season' => 'required|string',
+            'main_image' => 'required|file|mimes:jpeg,png,jpg,webp,avif|max:5120',
+            'side_image' => 'nullable|file|mimes:jpeg,png,jpg,webp,avif|max:5120',
+            'gallery.*' => 'nullable|file|mimes:jpeg,png,jpg,webp,avif|max:5120'
+        ]);
+
+        //vytvorenie produktu
+        $product = Product::create([
+            'Name' => $request->Name,
+            'Price' => $request->Price,
+            'Category_id' => $request->Category_id,
+            'Brand_id' => $request->Brand_id,
+            'Season' => $request->Season,
+            'Description' => $request->Description ?? '',
+        ]);
+
+        //uložnie variantov - rozne velkosti
+        if ($request->has('variants')) {
+            foreach ($request->variants as $variantData) {
+                ProductVariant::create([
+                    'Product_id' => $product->id,
+                    'Size' => $variantData['size'],
+                    'Quantity' => $variantData['quantity']
+                ]);
+            }
+        }
+
+        if ($request->hasFile('main_image')) {
+            $path = $request->file('main_image')->store('products', 'public');
+            ProductImage::create([
+                'Product_id' => $product->id,
+                'Image_path' => $path,
+                'Main' => true
+            ]);
+        }
+
+        if ($request->hasFile('side_image')) {
+            $path = $request->file('side_image')->store('products', 'public');
+            ProductImage::create([
+                'Product_id' => $product->id,
+                'Image_path' => $path,
+                'Main' => false
+            ]);
+        }
+
+        //dalšie fotky(ak sú)
+        if ($request->hasFile('gallery')) {
+            foreach ($request->file('gallery') as $file) {
+                if ($file) {
+                    $path = $file->store('products', 'public');
+                    ProductImage::create([
+                        'Product_id' => $product->id,
+                        'Image_path' => $path,
+                        'Main' => false
+                    ]);
+                }
+            }
+        }
+
+        return redirect()->route('admin.products')->with('success', 'Produkt bol úspešne pridaný.');
+    }
+
     public function adminIndex(Request $request)
     {
-        // 1. Základný dopyt s eager loadingom
         $query = ProductVariant::with(['product.brand', 'product.category', 'product.images']);
 
-        // 2. Fulltextové vyhľadávanie (v názve produktu)
+        //plnotextové vyhladavanie
         if ($request->filled('search')) {
             $searchTerm = $request->search;
             $query->whereHas('product', function($q) use ($searchTerm) {
@@ -24,29 +103,23 @@ class ProductController extends Controller
             });
         }
 
-        // 3. Filter podľa kategórie
         if ($request->filled('category')) {
             $query->whereHas('product', function($q) use ($request) {
                 $q->where('Category_id', $request->category);
             });
         }
 
-        // 4. Filter podľa značky
         if ($request->filled('brand')) {
             $query->whereHas('product', function($q) use ($request) {
                 $q->where('Brand_id', $request->brand);
             });
         }
 
-        // 5. Filter podľa veľkosti
         if ($request->filled('size')) {
             $query->where('Size', $request->size);
         }
-
-        // 6. Vykonanie dopytu so stránkovaním (zachováme filtre v linkoch)
         $variants = $query->orderBy('id', 'desc')->paginate(10)->withQueryString();
 
-        // 7. Načítanie dát pre dropdowny
         $categories = Category::all(); 
         $brands = Brand::all();
         $sizes = ProductVariant::select('Size')->distinct()->orderBy('Size')->pluck('Size');
@@ -59,7 +132,6 @@ class ProductController extends Controller
     {
         $product = Product::with(['brand', 'category', 'images', 'variants'])->findOrFail($id);
 
-        //získaju sa ID-čka všetkých variantov tohto produktu
         $variantIds = $product->variants->pluck('id');
 
         //zistí sa čo je už v košiku
