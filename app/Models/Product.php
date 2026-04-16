@@ -11,19 +11,22 @@ class Product extends Model
     protected $table = 'Product';
     public $timestamps = false;
 
-    //produkt patrí jednej značke
+    protected $fillable = ['Name', 'Price', 'Description', 'Category_id', 'Brand_id', 'Season'];
+
+    // Produkt patrí jednej značke
     public function brand(): BelongsTo
     {
         return $this->belongsTo(Brand::class, 'Brand_id', 'id');
     }
 
-    //produkt patrí do jednej kategórie
+    // DOPLNENÉ: Produkt patrí do jednej kategórie
     public function category(): BelongsTo
     {
+        // Skontroluj, či sa stĺpec v databáze volá 'Category_id' (častý štandard)
         return $this->belongsTo(Category::class, 'Category_id', 'id');
     }
 
-    //produkt má viac obrázkov
+    // Produkt má viac obrázkov
     public function images(): HasMany
     {
         return $this->hasMany(ProductImage::class, 'Product_id');

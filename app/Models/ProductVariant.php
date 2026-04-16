@@ -9,8 +9,9 @@ class ProductVariant extends Model
     protected $table = 'Product_variant';
     public $timestamps = false;
 
-    public function product()
-    {
+    protected $fillable = ['Product_id', 'Size', 'Quantity'];
+
+    public function product() {
         return $this->belongsTo(Product::class, 'Product_id');
     }
 }
