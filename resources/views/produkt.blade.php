@@ -169,17 +169,17 @@
     </div>
 
     <div class="mb-10">
-        <p class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-3">Množstvo</p>
-        <div class="flex items-center border-2 border-zinc-100 rounded-full w-fit bg-white overflow-hidden">
-            <button type="button" onclick="changeQuantity(-1)" class="px-6 py-3 hover:bg-zinc-100 transition-colors">
-                <i class="fa fa-minus text-xs"></i>
-            </button>
-            <span id="quantity-display" class="px-6 py-3 font-black text-lg min-w-[60px] text-center select-none">1</span>
-            <button type="button" onclick="changeQuantity(1)" class="px-6 py-3 hover:bg-zinc-100 transition-colors">
-                <i class="fa fa-plus text-xs"></i>
-            </button>
+        <p class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-3 italic">Množstvo</p>
+        <div class="w-32"> <input 
+                type="number" 
+                id="quantity-input" 
+                name="quantity" 
+                value="1" 
+                min="1" 
+                oninput="validateInput(this)"
+                class="w-full text-center py-3 border border-zinc-200 rounded-lg text-lg font-black bg-zinc-50 outline-none focus:border-red-600 transition-colors"
+            >
         </div>
-        <input type="hidden" name="quantity" id="quantity-input" value="1">
     </div>
 
     <button type="submit" onclick="return validateSizeSelection()" class="w-full bg-zinc-950 text-white font-black py-6 rounded-full uppercase tracking-[0.2em] text-sm hover:bg-red-600 transition-all shadow-2xl active:scale-95 transform hover:-translate-y-1">
@@ -265,6 +265,27 @@
 @endauth
 
 <script>
+    function validateInput(input) {
+        const variantId = document.getElementById('selected_variant_id').value;
+        
+        if (!variantId) {
+            alert('Najprv si vyberte veľkosť!');
+            input.value = 1;
+            return;
+        }
+
+        let val = parseInt(input.value);
+
+        if (isNaN(val)) return; 
+
+        if (val < 1) {
+            input.value = 1;
+        } else if (val > currentStockLimit) {
+            alert('Na sklade máme momentálne len ' + currentStockLimit + ' kusov.');
+            input.value = currentStockLimit;
+        }
+    }
+
     let currentStockLimit = 0;
 
     function selectSize(element, variantId, stock) {
@@ -289,29 +310,6 @@
             display.innerText = currentStockLimit;
         }
         console.log("Vybraný variant ID:", variantId, "Sklad:", currentStockLimit);
-    }
-
-    function changeQuantity(amount) {
-        const display = document.getElementById('quantity-display');
-        const input = document.getElementById('quantity-input');
-        const variantId = document.getElementById('selected_variant_id').value;
-
-        // Nedovolí klikať na +/- kým nemáš veľkosť
-        if (!variantId) {
-            alert('Najprv si vyberte veľkosť!');
-            return;
-        }
-
-        let currentQty = parseInt(display.innerText);
-        let newQty = currentQty + amount;
-
-        //aby počet kus nešiel <1 a nad počet v sklade
-        if (newQty >= 1 && newQty <= currentStockLimit) {
-            display.innerText = newQty;
-            input.value = newQty;
-        } else if (newQty > currentStockLimit) {
-            alert('Viac kusov momentálne nemáme na sklade.');
-        }
     }
 
     function validateSizeSelection() {
