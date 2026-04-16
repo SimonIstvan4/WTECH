@@ -114,5 +114,6 @@ Route::get('/potvrdenie_objednavky', function () { return view('potvrdenie_objed
 
 //admin časť
 Route::get('/admin_zoznam', [ProductController::class, 'adminIndex'])->name('admin.products');
-Route::get('/admin_pridat', function () { return view('admin_pridat'); });
+Route::get('/admin_pridat', [ProductController::class, 'adminCreate'])->name('admin.products.create');
+Route::post('/admin_pridat', [ProductController::class, 'adminStore'])->name('admin.products.store');
 Route::get('/admin_upravit', function () { return view('admin_upravit'); });
