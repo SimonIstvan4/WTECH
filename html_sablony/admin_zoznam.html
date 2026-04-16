@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Správa produktov</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="m-0 font-sans bg-zinc-50 text-zinc-900">
+
+    <header class="bg-zinc-950 text-white px-[5%] py-4 sticky top-0 z-50 shadow-md">
+        <div class="flex justify-between items-center max-w-7xl mx-auto">
+            <div class="text-2xl font-black uppercase tracking-tighter italic flex items-center gap-3">
+                <span>STREET <span class="text-red-600">SHOE</span></span>
+                <span class="bg-red-600 text-white text-[10px] px-2 py-1 rounded-md tracking-widest not-italic">ADMIN</span>
+            </div>
+            
+            <div class="flex items-center gap-8">
+                <nav class="hidden md:flex gap-6 text-[11px] font-bold uppercase tracking-widest text-zinc-400">
+                </nav>
+                <div class="w-px h-6 bg-zinc-800"></div>
+                <a href="login.html" class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-red-500 hover:text-red-400 transition-colors">
+                    <span>Odhlásiť sa</span>
+                    <i class="fa fa-sign-out text-lg"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-5 py-10">
+        
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+            <div>
+                <h1 class="text-4xl font-black uppercase tracking-tighter italic mb-1">Správa produktov</h1>
+                <p class="text-sm font-bold text-zinc-400 uppercase tracking-widest">Celkovo 124 produktov v databáze</p>
+            </div>
+            
+            <a href="admin_pridat.html" class="bg-red-600 text-white px-8 py-4 rounded-full font-black uppercase tracking-widest text-[11px] hover:bg-red-700 transition-all shadow-lg flex items-center gap-2 transform hover:-translate-y-1">
+                <i class="fa fa-plus"></i> Nový produkt
+            </a>
+        </div>
+
+        <div class="bg-white rounded-[32px] shadow-sm border border-zinc-100 p-6 md:p-8">
+            
+            <div class="flex flex-col xl:flex-row justify-between gap-4 mb-8">
+                
+                <div class="relative w-full xl:w-96">
+                    <input type="text" placeholder="Hľadať produkt podľa názvu alebo ID..." class="w-full bg-zinc-100 border-0 rounded-xl py-3 pl-10 pr-4 text-sm font-bold focus:ring-2 focus:ring-red-600 outline-none transition-all">
+                    <i class="fa fa-search absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"></i>
+                </div>
+                
+                <div class="flex flex-wrap gap-2 items-center w-full xl:w-auto">
+                    <select class="flex-1 xl:flex-none bg-zinc-100 border-0 rounded-xl py-3 px-4 text-sm font-bold text-zinc-600 focus:ring-2 focus:ring-red-600 outline-none cursor-pointer">
+                        <option value="" disabled selected>Značka</option>
+                        <option value="nike">Nike</option>
+                        <option value="adidas">Adidas</option>
+                        <option value="jordan">Jordan</option>
+                    </select>
+                    
+                    <select class="flex-1 xl:flex-none bg-zinc-100 border-0 rounded-xl py-3 px-4 text-sm font-bold text-zinc-600 focus:ring-2 focus:ring-red-600 outline-none cursor-pointer">
+                        <option value="" disabled selected>Kategória</option>
+                        <option value="muzi">Muži</option>
+                        <option value="zeny">Ženy</option>
+                        <option value="deti">Deti</option>
+                        <option value="vsetko">Všetko</option>
+                    </select>
+
+                    <select class="flex-1 xl:flex-none bg-zinc-100 border-0 rounded-xl py-3 px-4 text-sm font-bold text-zinc-600 focus:ring-2 focus:ring-red-600 outline-none cursor-pointer">
+                        <option value="" disabled selected>Veľkosť</option>
+                        <option value="38">38</option>
+                        <option value="39">39</option>
+                        <option value="40">40</option>
+                        <option value="41">41</option>
+                        <option value="42">42</option>
+                    </select>
+
+                    <button class="w-full xl:w-auto bg-zinc-950 text-white px-8 py-3 rounded-xl font-black uppercase tracking-widest text-[11px] hover:bg-zinc-800 transition-all shadow-md transform hover:-translate-y-0.5">
+                        <i class="fa fa-filter mr-2 text-red-600"></i> Filtrovať
+                    </button>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse min-w-[1000px]">
+                    <thead>
+                        <tr class="border-b-2 border-zinc-100 text-[10px] uppercase tracking-widest text-zinc-400">
+                            <th class="pb-4 pl-2">Náhľad</th>
+                            <th class="pb-4">Názov produktu</th>
+                            <th class="pb-4">Značka</th>
+                            <th class="pb-4">Kategória</th>
+                            <th class="pb-4">Veľkosť</th>
+                            
+                            <th class="pb-4">Cena</th>
+                            <th class="pb-4 text-center">Skladom</th>
+                            <th class="pb-4 text-right pr-4">Akcie</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        
+                        <tr class="border-b border-zinc-50 hover:bg-zinc-50 transition-colors group">
+                            <td class="py-4 pl-2">
+                                <div class="w-16 h-16 bg-zinc-100 rounded-xl flex items-center justify-center overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=200" class="w-full h-full object-cover">
+                                </div>
+                            </td>
+                            <td class="py-4 font-black italic text-base">
+                                Air Max Pulse Roam
+                                <span class="block text-[10px] font-bold text-zinc-400 uppercase tracking-widest mt-1 not-italic">ID: #10045-42</span>
+                            </td>
+                            <td class="py-4 text-[11px] font-bold text-red-600 uppercase tracking-widest">Nike</td>
+                            <td class="py-4 text-xs font-bold text-zinc-600 uppercase tracking-widest">Muži</td>
+                            <td class="py-4 text-lg font-black text-zinc-900">42</td>
+                            
+                            <td class="py-4 font-black italic">169,99 €</td>
+                            <td class="py-4 text-center">
+                                <span class="bg-green-100 text-green-700 font-bold px-3 py-1 rounded-md text-[11px] uppercase tracking-wider">34 ks</span>
+                            </td>
+                            <td class="py-4 text-right pr-4">
+                                <div class="flex justify-end gap-2 opacity-50 group-hover:opacity-100 transition-opacity">
+                                    <a href="admin_upravit.html" class="w-8 h-8 rounded-full bg-zinc-100 hover:bg-zinc-950 hover:text-white transition-colors flex items-center justify-center text-zinc-600" title="Upraviť">
+                                        <i class="fa fa-pencil text-xs"></i>
+                                    </a>
+                                    <button class="w-8 h-8 rounded-full bg-red-50 hover:bg-red-600 hover:text-white transition-colors flex items-center justify-center text-red-600" title="Vymazať">
+                                        <i class="fa fa-trash text-xs"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="border-b border-zinc-50 hover:bg-zinc-50 transition-colors group">
+                            <td class="py-4 pl-2">
+                                <div class="w-16 h-16 bg-zinc-100 rounded-xl flex items-center justify-center overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=200" class="w-full h-full object-cover">
+                                </div>
+                            </td>
+                            <td class="py-4 font-black italic text-base">
+                                Dunk Low Retro
+                                <span class="block text-[10px] font-bold text-zinc-400 uppercase tracking-widest mt-1 not-italic">ID: #10046-38</span>
+                            </td>
+                            <td class="py-4 text-[11px] font-bold text-red-600 uppercase tracking-widest">Jordan</td>
+                            <td class="py-4 text-xs font-bold text-zinc-600 uppercase tracking-widest">Ženy</td>
+                            <td class="py-4 text-lg font-black text-zinc-900">38</td>
+                            
+                            <td class="py-4 font-black italic">119,99 €</td>
+                            <td class="py-4 text-center">
+                                <span class="bg-red-100 text-red-700 font-bold px-3 py-1 rounded-md text-[11px] uppercase tracking-wider">0 ks</span>
+                            </td>
+                            <td class="py-4 text-right pr-4">
+                                <div class="flex justify-end gap-2 opacity-50 group-hover:opacity-100 transition-opacity">
+                                    <a href="admin_upravit.html" class="w-8 h-8 rounded-full bg-zinc-100 hover:bg-zinc-950 hover:text-white transition-colors flex items-center justify-center text-zinc-600" title="Upraviť">
+                                        <i class="fa fa-pencil text-xs"></i>
+                                    </a>
+                                    <button class="w-8 h-8 rounded-full bg-red-50 hover:bg-red-600 hover:text-white transition-colors flex items-center justify-center text-red-600" title="Vymazať">
+                                        <i class="fa fa-trash text-xs"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="hover:bg-zinc-50 transition-colors group">
+                            <td class="py-4 pl-2">
+                                <div class="w-16 h-16 bg-zinc-100 rounded-xl flex items-center justify-center overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=200" class="w-full h-full object-cover">
+                                </div>
+                            </td>
+                            <td class="py-4 font-black italic text-base">
+                                Forum Low
+                                <span class="block text-[10px] font-bold text-zinc-400 uppercase tracking-widest mt-1 not-italic">ID: #10047-44</span>
+                            </td>
+                            <td class="py-4 text-[11px] font-bold text-red-600 uppercase tracking-widest">Adidas</td>
+                            <td class="py-4 text-xs font-bold text-zinc-600 uppercase tracking-widest">Všetko</td>
+                            <td class="py-4 text-lg font-black text-zinc-900">44</td>
+                            
+                            <td class="py-4 font-black italic">109,99 €</td>
+                            <td class="py-4 text-center">
+                                <span class="bg-yellow-100 text-yellow-700 font-bold px-3 py-1 rounded-md text-[11px] uppercase tracking-wider">4 ks</span>
+                            </td>
+                            <td class="py-4 text-right pr-4">
+                                <div class="flex justify-end gap-2 opacity-50 group-hover:opacity-100 transition-opacity">
+                                    <a href="admin_upravit.html" class="w-8 h-8 rounded-full bg-zinc-100 hover:bg-zinc-950 hover:text-white transition-colors flex items-center justify-center text-zinc-600" title="Upraviť">
+                                        <i class="fa fa-pencil text-xs"></i>
+                                    </a>
+                                    <button class="w-8 h-8 rounded-full bg-red-50 hover:bg-red-600 hover:text-white transition-colors flex items-center justify-center text-red-600" title="Vymazať">
+                                        <i class="fa fa-trash text-xs"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-8 flex justify-between items-center border-t border-zinc-100 pt-6">
+                <span class="text-xs font-bold text-zinc-400 uppercase tracking-widest">Zobrazené 1-3 z 124</span>
+                <div class="flex gap-2">
+                    <button class="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-400 cursor-not-allowed"><i class="fa fa-chevron-left text-xs"></i></button>
+                    <button class="w-10 h-10 rounded-full bg-zinc-950 text-white flex items-center justify-center font-bold text-xs">1</button>
+                    <button class="w-10 h-10 rounded-full bg-zinc-100 hover:bg-zinc-200 transition-colors flex items-center justify-center font-bold text-xs">2</button>
+                    <button class="w-10 h-10 rounded-full bg-zinc-100 hover:bg-zinc-200 transition-colors flex items-center justify-center font-bold text-xs">3</button>
+                    <button class="w-10 h-10 rounded-full bg-zinc-100 hover:bg-zinc-200 transition-colors flex items-center justify-center text-zinc-600"><i class="fa fa-chevron-right text-xs"></i></button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>

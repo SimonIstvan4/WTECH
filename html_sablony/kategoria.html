@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kategória - Sneaker Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="m-0 font-sans bg-white text-zinc-900 overflow-x-hidden">
+
+    <div class="bg-gradient-to-r from-red-800 via-red-600 to-red-800 text-white text-center py-2 text-[12px] tracking-[0.2em] uppercase font-medium">
+        <i class="fa fa-truck"></i>
+        <span class="font-bold">Doprava zadarmo</span> pri nákupe nad 120 €
+    </div>
+
+<header class="bg-white px-[5%] py-4 border-b border-gray-100 top-0 z-50">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4 max-w-7xl mx-auto">
+        
+        <div class="flex justify-between items-center w-full md:w-auto md:flex-1">
+            
+            <div class="text-2xl sm:text-3xl font-black uppercase tracking-tighter italic shrink-0 flex flex-row md:flex-col lg:flex-row lg:gap-2 leading-none">
+                <span>STREET</span>
+                <span class="text-red-600 ml-1 md:ml-0 lg:ml-0">SHOE</span>
+            </div>
+
+            <div class="flex md:hidden gap-4 text-gray-700 shrink-0">
+                <a href="homepage.html" class="text-center text-[10px] uppercase font-bold text-red-600"><i class="fa fa-home text-[22px]"></i></a>
+                <a href="login.html" class="text-center text-[10px] uppercase font-bold"><i class="fa fa-user-circle-o text-[22px]"></i></a>
+                <a href="#" class="text-center text-[10px] uppercase font-bold"><i class="fa fa-heart-o text-[22px]"></i></a>
+                <a href="kosik.html" class="text-center text-[10px] uppercase font-bold"><i class="fa fa-shopping-cart text-[22px]"></i></a>
+            </div>
+        </div>
+
+        <div class="w-full md:flex-[2] md:max-w-[500px] relative order-last md:order-none">
+            <input type="text" placeholder="Hľadať tenisky..." 
+                   class="w-full py-2.5 pl-5 pr-12 rounded-full border-0 bg-zinc-100 outline-none focus:ring-2 focus:ring-red-600 transition-all text-sm font-medium">
+            <i class="fa fa-search absolute right-5 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer"></i>
+        </div>
+
+        <div class="hidden md:flex flex-1 justify-end gap-6 text-gray-700 shrink-0">
+            <a href="homepage.html" class="text-center text-[10px] uppercase font-bold hover:text-red-600">
+                <i class="fa fa-home text-[22px] block mb-0.5"></i> Domov
+            </a>
+            <a href="login.html" class="text-center text-[10px] uppercase font-bold hover:text-red-600 transition-colors">
+                <i class="fa fa-user-circle-o text-[22px] block mb-0.5"></i> Odhlásiť sa
+            </a>
+            <a href="#" class="text-center text-[10px] uppercase font-bold hover:text-red-600 transition-colors">
+                <i class="fa fa-heart-o text-[22px] block mb-0.5"></i> Obľúbené
+            </a>
+            <a href="kosik.html" class="text-center text-[10px] uppercase font-bold hover:text-red-600 transition-colors">
+                <i class="fa fa-shopping-cart text-[22px] block mb-0.5"></i> Košík
+            </a>
+        </div>
+    </div>
+
+    <nav class="flex justify-center gap-6 md:gap-12 pt-3 border-t border-gray-50 mt-4">
+        <a href="kategoria.html" class="relative group text-[14px] font-bold uppercase text-gray-800 text-red-600">
+            VŠETKO <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-600 transition-all group-hover:w-full"></span>
+        </a>
+        <a href="kategoria.html" class="relative group text-[14px] font-bold uppercase text-gray-800 hover:text-red-600">
+            MUŽI <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-600 transition-all group-hover:w-full"></span>
+        </a>
+        <a href="kategoria.html" class="relative group text-[14px] font-bold uppercase text-gray-800 hover:text-red-600">
+            ŽENY <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-600 transition-all group-hover:w-full"></span>
+        </a>
+        <a href="kategoria.html" class="relative group text-[14px] font-bold uppercase text-gray-800 hover:text-red-600">
+            DETI <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-600 transition-all group-hover:w-full"></span>
+        </a>
+    </nav>
+</header>
+
+
+<main class="max-w-7xl mx-auto px-[5%] py-10">
+    <div class="flex flex-col lg:flex-row gap-10">
+        
+        <aside class="w-full lg:w-64 flex-shrink-0 flex flex-col gap-6 lg:gap-10">
+            <div class="w-full">
+                <h3 class="text-lg lg:text-xl font-bold mb-3 uppercase tracking-tighter border-b border-zinc-100 pb-2">Veľkosť (EU)</h3>
+                <div class="flex items-center gap-2">
+                    <div class="relative flex-1">
+                        <span class="absolute left-2 top-1/2 -translate-y-1/2 text-[9px] text-zinc-400 uppercase font-bold">Od</span>
+                        <input type="number" class="w-full bg-zinc-100 border-0 rounded-lg py-2.5 pl-7 pr-2 text-sm focus:ring-1 focus:ring-red-600 outline-none">
+                    </div>
+                    <div class="relative flex-1">
+                        <span class="absolute left-2 top-1/2 -translate-y-1/2 text-[9px] text-zinc-400 uppercase font-bold">Do</span>
+                        <input type="number" class="w-full bg-zinc-100 border-0 rounded-lg py-2.5 pl-7 pr-2 text-sm focus:ring-1 focus:ring-red-600 outline-none">
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full">
+                <h3 class="text-lg lg:text-xl font-bold mb-3 uppercase tracking-tighter border-b border-zinc-100 pb-2">Cena (€)</h3>
+                <div class="flex items-center gap-2">
+                    <div class="relative flex-1">
+                        <span class="absolute left-2 top-1/2 -translate-y-1/2 text-[9px] text-zinc-400 uppercase font-bold">Od</span>
+                        <input type="number" class="w-full bg-zinc-100 border-0 rounded-lg py-2.5 pl-7 pr-2 text-sm focus:ring-1 focus:ring-red-600 outline-none">
+                    </div>
+                    <div class="relative flex-1">
+                        <span class="absolute left-2 top-1/2 -translate-y-1/2 text-[9px] text-zinc-400 uppercase font-bold">Do</span>
+                        <input type="number" class="w-full bg-zinc-100 border-0 rounded-lg py-2.5 pl-7 pr-2 text-sm focus:ring-1 focus:ring-red-600 outline-none">
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full">
+                <h3 class="text-lg lg:text-xl font-bold mb-4 uppercase tracking-tighter border-b border-zinc-100 pb-2">Značka</h3>
+                <div class="space-y-2.5 text-sm font-medium">
+                    <label class="flex items-center gap-3 cursor-pointer group"><input type="checkbox" class="w-4 h-4 accent-red-600"><span class="group-hover:text-red-600 transition-colors">Nike</span></label>
+                    <label class="flex items-center gap-3 cursor-pointer group"><input type="checkbox" class="w-4 h-4 accent-red-600"><span class="group-hover:text-red-600 transition-colors">Jordan</span></label>
+                    <label class="flex items-center gap-3 cursor-pointer group"><input type="checkbox" class="w-4 h-4 accent-red-600"><span class="group-hover:text-red-600 transition-colors">Adidas</span></label>
+                    <label class="flex items-center gap-3 cursor-pointer group"><input type="checkbox" class="w-4 h-4 accent-red-600"><span class="group-hover:text-red-600 transition-colors">New Balance</span></label>
+                </div>
+            </div>
+
+            <div class="w-full">
+                <h3 class="text-lg lg:text-xl font-bold mb-4 uppercase tracking-tighter border-b border-zinc-100 pb-2">Sezóna</h3>
+                <div class="space-y-2.5 text-sm font-medium">
+                    <label class="flex items-center gap-3 cursor-pointer group"><input type="checkbox" class="w-4 h-4 accent-red-600"><span class="group-hover:text-red-600 transition-colors">Letné</span></label>
+                    <label class="flex items-center gap-3 cursor-pointer group"><input type="checkbox" class="w-4 h-4 accent-red-600"><span class="group-hover:text-red-600 transition-colors">Zimné</span></label>
+                    <label class="flex items-center gap-3 cursor-pointer group"><input type="checkbox" class="w-4 h-4 accent-red-600"><span class="group-hover:text-red-600 transition-colors">Prechodné</span></label>
+                    <label class="flex items-center gap-3 cursor-pointer group"><input type="checkbox" class="w-4 h-4 accent-red-600"><span class="group-hover:text-red-600 transition-colors">Celoročné</span></label>
+                </div>
+            </div>
+
+                        <div class="w-full">
+                <h3 class="text-lg lg:text-xl font-bold mb-4 uppercase tracking-tighter border-b border-zinc-100 pb-2">Typ</h3>
+                <div class="space-y-2.5 text-sm font-medium">
+                    <label class="flex items-center gap-3 cursor-pointer group"><input type="checkbox" class="w-4 h-4 accent-red-600"><span class="group-hover:text-red-600 transition-colors">Tenisky</span></label>
+                    <label class="flex items-center gap-3 cursor-pointer group"><input type="checkbox" class="w-4 h-4 accent-red-600"><span class="group-hover:text-red-600 transition-colors">Šľapky</span></label>
+                    <label class="flex items-center gap-3 cursor-pointer group"><input type="checkbox" class="w-4 h-4 accent-red-600"><span class="group-hover:text-red-600 transition-colors">Bežecká obuv</span></label>
+                    <label class="flex items-center gap-3 cursor-pointer group"><input type="checkbox" class="w-4 h-4 accent-red-600"><span class="group-hover:text-red-600 transition-colors">Turistická obuv</span></label>
+                </div>
+            </div>
+
+            <button class="w-full bg-zinc-950 text-white font-black py-4 rounded-xl uppercase tracking-widest text-[11px] hover:bg-red-600 transition-all active:scale-95 shadow-lg mt-2">
+                Použiť filtre
+            </button>
+        </aside>
+
+        <div class="flex-1">
+            
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+                <div>
+                    <h2 class="text-2xl font-black uppercase tracking-tighter italic text-zinc-800">Všetky produkty</h2>
+                </div>
+
+                <div class="flex items-center gap-2 bg-zinc-100 px-4 py-2 rounded-xl border border-zinc-200 w-full sm:w-auto">
+                    <span class="text-[9px] font-black uppercase tracking-widest text-zinc-400 whitespace-nowrap">Zoradiť podľa:</span>
+                    <select class="bg-transparent text-sm font-bold outline-none cursor-pointer appearance-none pr-4 w-full">
+                        <option>Najlacnejšie</option>
+                        <option>Najdrahšie</option>
+                    </select>
+                    <i class="fa fa-chevron-down text-[10px] text-zinc-400"></i>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                
+                <div class="group relative">
+                    <a href="produkt.html" class="block">
+                        <div class="relative bg-zinc-100 aspect-square rounded-xl overflow-hidden mb-4">
+                            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                        <div class="space-y-1">
+                            <p class="font-bold text-sm md:text-base tracking-tight group-hover:text-red-600 transition-colors">Nike</p>
+                            <p class="text-gray-600 text-xs md:text-sm truncate">Shox TL Red</p>
+                            <p class="font-black text-sm md:text-lg text-black mt-1">112,49 €</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="group relative">
+                    <a href="produkt.html" class="block">
+                        <div class="relative bg-zinc-100 aspect-square rounded-xl overflow-hidden mb-4">
+                            <img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=800" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                        <div class="space-y-1">
+                            <p class="font-bold text-sm md:text-base tracking-tight group-hover:text-red-600 transition-colors">Nike</p>
+                            <p class="text-gray-600 text-xs md:text-sm truncate">Zoom Freak 4</p>
+                            <p class="font-black text-sm md:text-lg text-black mt-1">95,00 €</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="group relative">
+                    <a href="produkt.html" class="block">
+                        <div class="relative bg-zinc-100 aspect-square rounded-xl overflow-hidden mb-4">
+                            <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=800" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                        <div class="space-y-1">
+                            <p class="font-bold text-sm md:text-base tracking-tight group-hover:text-red-600 transition-colors">Nike</p>
+                            <p class="text-gray-600 text-xs md:text-sm truncate">Air Force 1 Shadow</p>
+                            <p class="font-black text-sm md:text-lg text-black mt-1">150,99 €</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="group relative">
+                    <a href="produkt.html" class="block">
+                        <div class="relative bg-zinc-100 aspect-square rounded-xl overflow-hidden mb-4">
+                            <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=800" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                        <div class="space-y-1">
+                            <p class="font-bold text-sm md:text-base tracking-tight group-hover:text-red-600 transition-colors">Jordan</p>
+                            <p class="text-gray-600 text-xs md:text-sm truncate">Air Jordan 1 Mid</p>
+                            <p class="font-black text-sm md:text-lg text-black mt-1">129,99 €</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="group relative">
+                    <a href="produkt.html" class="block">
+                        <div class="relative bg-zinc-100 aspect-square rounded-xl overflow-hidden mb-4">
+                            <img src="https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?q=80&w=800" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                        <div class="space-y-1">
+                            <p class="font-bold text-sm md:text-base tracking-tight group-hover:text-red-600 transition-colors">Adidas</p>
+                            <p class="text-gray-600 text-xs truncate">Forum Low White</p>
+                            <p class="font-black text-sm md:text-lg">110,00 €</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="group relative">
+                    <a href="produkt.html" class="block">
+                        <div class="relative bg-zinc-100 aspect-square rounded-xl overflow-hidden mb-4">
+                            <img src="https://images.unsplash.com/photo-1512374382149-233c42b6a83b?q=80&w=800" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                        <div class="space-y-1">
+                            <p class="font-bold text-sm md:text-base tracking-tight group-hover:text-red-600 transition-colors">Nike SB</p>
+                            <p class="text-gray-600 text-xs truncate">Ishod Wair Navy</p>
+                            <p class="font-black text-sm md:text-lg">105,00 €</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="group relative">
+                    <a href="produkt.html" class="block">
+                        <div class="relative bg-zinc-100 aspect-square rounded-xl overflow-hidden mb-4">
+                            <img src="https://images.unsplash.com/photo-1539185441755-769473a23570?q=80&w=800" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                        <div class="space-y-1">
+                            <p class="font-bold text-sm md:text-base tracking-tight group-hover:text-red-600 transition-colors">New Balance</p>
+                            <p class="text-gray-600 text-xs truncate">574 Classic</p>
+                            <p class="font-black text-sm md:text-lg">99,90 €</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="group relative">
+                    <a href="produkt.html" class="block">
+                        <div class="relative bg-zinc-100 aspect-square rounded-xl overflow-hidden mb-4">
+                            <img src="https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?q=80&w=800" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                        <div class="space-y-1">
+                            <p class="font-bold text-sm md:text-base tracking-tight group-hover:text-red-600 transition-colors">Nike</p>
+                            <p class="text-gray-600 text-xs truncate">Air Max 270</p>
+                            <p class="font-black text-sm md:text-lg">145,00 €</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="group relative">
+                    <a href="produkt.html" class="block">
+                        <div class="relative bg-zinc-100 aspect-square rounded-xl overflow-hidden mb-4">
+                            <img src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?q=80&w=800" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                        <div class="space-y-1">
+                            <p class="font-bold text-sm md:text-base tracking-tight group-hover:text-red-600 transition-colors">Vans</p>
+                            <p class="text-gray-600 text-xs truncate">Old Skool Black</p>
+                            <p class="font-black text-sm md:text-lg">75,00 €</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="group relative">
+                    <a href="produkt.html" class="block">
+                        <div class="relative bg-zinc-100 aspect-square rounded-xl overflow-hidden mb-4">
+                            <img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?q=80&w=800" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                        <div class="space-y-1">
+                            <p class="font-bold text-sm md:text-base tracking-tight group-hover:text-red-600 transition-colors">Converse</p>
+                            <p class="text-gray-600 text-xs truncate">Chuck Taylor All Star</p>
+                            <p class="font-black text-sm md:text-lg">69,90 €</p>
+                        </div>
+                    </a>
+                </div>
+
+                </div> <div class="flex justify-end items-center gap-2 mt-16 mb-4">
+                
+                    <a href="#" class="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-xl border-2 border-zinc-100 text-zinc-400 hover:border-red-600 hover:text-red-600 transition-all group">
+                        <i class="fa fa-chevron-left text-xs group-hover:-translate-x-1 transition-transform"></i>
+                    </a>
+
+                    <a href="#" class="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-xl bg-zinc-950 text-white font-black shadow-lg text-sm md:text-base">1</a>
+                    
+                    <a href="#" class="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-xl border-2 border-zinc-100 font-bold hover:border-red-600 hover:text-red-600 transition-all text-sm md:text-base">2</a>
+                    
+                    <a href="#" class="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-xl border-2 border-zinc-100 font-bold hover:border-red-600 hover:text-red-600 transition-all text-sm md:text-base">3</a>
+                    
+                    <span class="w-8 h-10 md:w-12 md:h-12 flex items-center justify-center text-zinc-400 font-bold text-sm md:text-base">...</span>
+                    
+                    <a href="#" class="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-xl border-2 border-zinc-100 font-bold hover:border-red-600 hover:text-red-600 transition-all text-sm md:text-base">12</a>
+
+                    <a href="#" class="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-xl border-2 border-zinc-100 text-zinc-950 hover:border-red-600 hover:text-red-600 transition-all group">
+                        <i class="fa fa-chevron-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+<section class="bg-zinc-950 py-[50px] px-5 text-center mt-[75px] text-white">
+    <h2 class="text-4xl font-black mb-3 tracking-tighter uppercase">
+        UŠETRI <span class="text-red-600">10 €</span> Z NÁKUPU
+    </h2>
+    <p class="text-gray-400 text-lg mb-5 max-w-md mx-auto">
+        Pridaj sa do klubu a tvoja prvá zľava ťa čaká hneď po registrácii.
+    </p>
+    
+    <div class="mb-10 flex flex-col justify-center items-center gap-4">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full border border-gray-800 flex items-center justify-center text-red-600">
+                <i class="fa fa-money"></i>
+            </div>
+            <span class="text-sm font-bold uppercase tracking-wider text-gray-200">10 € voucher</span>
+        </div>
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full border border-gray-800 flex items-center justify-center text-red-600">
+                <i class="fa fa-heart-o"></i>
+            </div>
+            <span class="text-sm font-bold uppercase tracking-wider text-gray-200">Vlastný wishlist</span>
+        </div>
+    </div>
+
+    <a href="registration.html" 
+       class="inline-block bg-white text-black px-12 py-4 font-black text-sm uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all transform hover:-translate-y-1">
+        Získať výhody teraz
+    </a>
+</section>
+
+</body>
+</html>
