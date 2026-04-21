@@ -57,34 +57,46 @@ class ProductController extends Controller
         }
 
         if ($request->hasFile('main_image')) {
-            $path = $request->file('main_image')->store('products', 'public');
+            $file = $request->file('main_image');
+    
+            //získa pôvodný názov súboru - aby som ho tak vedel uloožiť do DB
+            $originalName = $file->getClientOriginalName();
+            $filename = $originalName;       //výsledok napr.  adidas_perf1.avif
+            $path = $file->storeAs('products', $filename, 'public');
+
             ProductImage::create([
                 'Product_id' => $product->id,
-                'Image_path' => $path,
+                'Image_path' => $filename,
                 'Main' => true
             ]);
         }
 
         if ($request->hasFile('side_image')) {
-            $path = $request->file('side_image')->store('products', 'public');
+            $file = $request->file('side_image');
+    
+            $originalName = $file->getClientOriginalName();
+            $filename = $originalName;      
+            $path = $file->storeAs('products', $filename, 'public');
+            
             ProductImage::create([
                 'Product_id' => $product->id,
-                'Image_path' => $path,
+                'Image_path' => $filename,
                 'Main' => false
             ]);
         }
 
         //dalšie fotky(ak sú)
         if ($request->hasFile('gallery')) {
-            foreach ($request->file('gallery') as $file) {
-                if ($file) {
-                    $path = $file->store('products', 'public');
-                    ProductImage::create([
-                        'Product_id' => $product->id,
-                        'Image_path' => $path,
-                        'Main' => false
-                    ]);
-                }
+            foreach ($request->file('gallery') as $key => $file) {
+                $originalName = $file->getClientOriginalName();
+                $filename = $originalName;
+                $path = $file->storeAs('products', $filename, 'public');
+                
+                ProductImage::create([
+                    'Product_id' => $product->id,
+                    'Image_path' => $filename,
+                    'Main' => false
+                ]);
             }
         }
 
