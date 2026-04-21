@@ -98,17 +98,20 @@
     <section class="flex flex-col lg:grid lg:grid-cols-2 gap-12 mb-20 items-start">
         
         <div class="relative group w-full order-1">
-            <div class="aspect-[4/5] md:aspect-square overflow-hidden bg-zinc-50">
+            <div class="aspect-[4/5] md:aspect-square overflow-hidden bg-zinc-50 rounded-3xl">
                 @php 
                     $mainImage = $product->images->where('Main', true)->first() ?? $product->images->first();
                 @endphp
-                
                 @if($mainImage)
-                    <img src="{{ asset('storage/' . $mainImage->Image_path) }}" 
-                         alt="{{ $product->Name }}" 
-                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <img id="main-image" 
+                        src="{{ asset('storage/' . $mainImage->Image_path) }}" 
+                        alt="{{ $product->Name }}" 
+                        class="w-full h-full object-cover transition-all duration-500 shadow-sm"
+                        style="opacity: 1;">
                 @else
-                    <div class="w-full h-full flex items-center justify-center text-zinc-300 font-bold uppercase tracking-widest italic">Bez fotky</div>
+                    <div class="w-full h-full flex items-center justify-center text-zinc-300 font-bold uppercase tracking-widest italic">
+                        Bez fotky
+                    </div>
                 @endif
             </div>
         </div>
@@ -117,11 +120,12 @@
             <p class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-4 italic">Ďalšie fotografie</p>
             <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
                 @foreach($product->images->where('Main', false) as $image)
-                <div class="aspect-square overflow-hidden bg-zinc-100 group cursor-pointer border-2 border-transparent hover:border-red-600 transition-all">
-                    <img src="{{ asset('storage/' . $image->Image_path) }}" 
-                        alt="Detail" 
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                </div>
+                    <div class="h-24 rounded-xl overflow-hidden border border-zinc-200 cursor-pointer">
+                        <img src="{{ asset('storage/' . $image->Image_path) }}" 
+                            alt="Detail" 
+                            onclick="swapImage(this)"
+                            class="w-full h-full object-cover hover:opacity-75 transition-opacity">
+                    </div>
                 @endforeach
             </div>
         </div>
@@ -329,6 +333,25 @@
             return false;
         }
         return true;
+    }
+
+    function swapImage(clickedThumbnail) {
+        const mainImage = document.getElementById('main-image');
+        const currentMainSrc = mainImage.src;
+        const clickedThumbSrc = clickedThumbnail.src;
+
+        if (currentMainSrc === clickedThumbSrc) return;
+
+        mainImage.style.opacity = '0';
+        
+        //počká sa chvilu na efekt
+        setTimeout(() => {
+            mainImage.src = clickedThumbSrc;
+            clickedThumbnail.src = currentMainSrc;
+            
+            // Zobrazenie nového obrázka
+            mainImage.style.opacity = '1';
+        }, 250); 
     }
 </script>
 
