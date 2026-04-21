@@ -20,10 +20,16 @@
                 <nav class="hidden md:flex gap-6 text-[11px] font-bold uppercase tracking-widest text-zinc-400">
                 </nav>
                 <div class="w-px h-6 bg-zinc-800"></div>
-                <a href="/login" class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-red-500 hover:text-red-400 transition-colors">
+                <a href="#" 
+                    onclick="event.preventDefault(); document.getElementById('logout-form-desktop').submit();" 
+                    class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-red-500 hover:text-red-400 transition-colors">
                     <span>Odhlásiť sa</span>
                     <i class="fa fa-sign-out text-lg"></i>
                 </a>
+
+                <form id="logout-form-desktop" action="{{ route('logout') }}" method="POST" class="hidden">
+                    @csrf
+                </form>
             </div>
         </div>
     </header>
@@ -253,4 +259,3 @@
     </script>
 </body>
 </html>
-
