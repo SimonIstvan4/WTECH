@@ -165,4 +165,87 @@ class ProductController extends Controller
 
         return view('produkt', compact('product', 'recommendedProducts'));
     }
+
+    public function adminVariantDestroy($id)
+    {
+        $variant = ProductVariant::findOrFail($id);
+        $variant->delete();
+
+        return back()->with('success', 'Variant bol úspešne odstránený.');
+    }
+
+    //formulár na editovanie
+    public function adminEdit($id)
+    {
+        $product = Product::with(['variants', 'images', 'category', 'brand'])->findOrFail($id);
+        $categories = Category::orderBy('Name')->get();
+        $brands = Brand::orderBy('Name')->get();
+        
+        return view('admin_upravit', compact('product', 'categories', 'brands'));
+    }
+
+    public function adminUpdate(Request $request, $id)
+    {
+        $product = Product::with('images')->findOrFail($id);
+
+        $request->validate([
+            'Name' => 'required|string|max:255',
+            'Price' => 'required|numeric',
+            'Category_id' => 'required|exists:Category,id',
+            'Brand_id' => 'required|exists:Brand,id',
+        ]);
+
+        $currentSecondary = $product->images->where('Main', false)->count();
+        $toDelete = $request->has('delete_images') ? count($request->delete_images) : 0;
+        $newCount = $request->hasFile('gallery') ? count($request->file('gallery')) : 0;
+
+        if (($currentSecondary - $toDelete + $newCount) < 1) {
+            return back()->withErrors(['gallery' => 'Produkt musí mať aspopping aspoň jednu ďalšiu fotku v galérii.']);
+        }
+
+        $product->update($request->only(['Name', 'Price', 'Description', 'Brand_id', 'Category_id', 'Season']));
+
+        //update skladu
+        if ($request->has('variants')) {
+            foreach ($request->variants as $vData) {
+                ProductVariant::where('id', $vData['id'])->update(['Quantity' => $vData['quantity']]);
+            }
+        }
+
+        //nahrávanie novej hlavnej fotky
+        if ($request->hasFile('main_image')) {
+            ProductImage::where('Product_id', $product->id)->where('Main', true)->delete();
+            
+            $file = $request->file('main_image');
+            $filename = $file->hashName(); 
+            $file->storeAs('products', $filename, 'public');
+
+            ProductImage::create([
+                'Product_id' => $product->id,
+                'Image_path' => 'products/' . $filename,
+                'Main' => true
+            ]);
+        }
+
+        //mazanie označených starých fotiek
+        if ($request->has('delete_images')) {
+            ProductImage::whereIn('id', $request->delete_images)->delete();
+        }
+
+        //nahranie nových vedlajších obrazkov
+        if ($request->hasFile('gallery')) {
+            foreach ($request->file('gallery') as $file) {
+                $filename = $file->hashName();
+                $file->storeAs('products', $filename, 'public');
+                
+                ProductImage::create([
+                    'Product_id' => $product->id,
+                    'Image_path' => 'products/' . $filename,
+                    'Main' => false
+                ]);
+            }
+        }
+
+        return redirect()->route('admin.products')->with('success', 'Produkt bol úspešne upravený.');
+    }
 }
