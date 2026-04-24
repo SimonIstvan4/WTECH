@@ -145,38 +145,33 @@
 
             <hr class="border-zinc-100 my-10">
 
+            {{-- FOTOGRAFIE --}}
             <div class="space-y-8">
-                <div class="bg-white p-8 rounded-3xl space-y-6">
-                    <h3 class="text-xs font-black uppercase tracking-widest italic">Fotografie</h3>
+                <div class="bg-white rounded-3xl space-y-6">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xs font-black uppercase tracking-widest italic text-zinc-800">Fotografie produktu</h3>
+                        <span class="text-[9px] font-bold text-red-600 uppercase bg-red-50 px-2 py-1 rounded">Povinná hlavná + aspoň 1 ďalšia</span>
+                    </div>
                     
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div class="space-y-2">
                             <label class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 pl-1">Hlavná foto *</label>
-                            <input type="file" name="main_image" id="main_img" class="hidden" accept="image/*" onchange="previewImage(this, 'preview-main')">
-                            <label for="main_img" id="preview-main" class="border-2 border-dashed border-zinc-200 rounded-3xl h-48 flex flex-col items-center justify-center text-zinc-300 hover:text-red-600 hover:border-red-600 hover:bg-red-50 transition-all group cursor-pointer overflow-hidden">
+                            <input type="file" name="main_image" id="main_img" class="hidden" accept="image/*" onchange="previewImage(this, 'preview-main')" required>
+                            <label for="main_img" id="preview-main" class="border-2 border-dashed border-zinc-200 rounded-3xl h-64 flex flex-col items-center justify-center text-zinc-300 hover:text-red-600 hover:border-red-600 hover:bg-red-50 transition-all group cursor-pointer overflow-hidden relative">
                                 <i class="fa fa-cloud-upload text-3xl mb-2 group-hover:scale-110 transition-transform"></i>
                                 <span class="text-[10px] font-bold uppercase tracking-widest text-center px-4">Nahrať hlavnú foto</span>
                             </label>
                         </div>
 
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 pl-1">Vedľajšia foto *</label>
-                            <input type="file" name="side_image" id="side_img" class="hidden" accept="image/*" onchange="previewImage(this, 'preview-side')">
-                            <label for="side_img" id="preview-side" class="border-2 border-dashed border-zinc-200 rounded-3xl h-48 flex flex-col items-center justify-center text-zinc-300 hover:text-red-600 hover:border-red-600 hover:bg-red-50 transition-all group cursor-pointer overflow-hidden">
-                                <i class="fa fa-cloud-upload text-3xl mb-2 group-hover:scale-110 transition-transform"></i>
-                                <span class="text-[10px] font-bold uppercase tracking-widest text-center px-4">Nahrať foto</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 pl-1">Galéria</label>
-                        <div id="gallery-preview-container" class="grid grid-cols-4 gap-4">
-                            {{-- Sem sa pridajú náhľady galérie --}}
-                            <input type="file" name="gallery[]" id="gallery_imgs" class="hidden" multiple accept="image/*" onchange="previewGallery(this)">
-                            <label for="gallery_imgs" class="border-2 border-dashed border-zinc-200 rounded-2xl h-32 flex flex-col items-center justify-center text-zinc-300 hover:text-zinc-600 hover:border-zinc-400 transition-all bg-zinc-50 cursor-pointer">
-                                <i class="fa fa-plus text-xl"></i>
-                            </label>
+                        <div class="md:col-span-2 space-y-2">
+                            <label class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 pl-1">Ostatné fotografie *</label>
+                            <div id="gallery-preview-container" class="grid grid-cols-2 sm:grid-cols-3 gap-4">                                
+                                <input type="file" name="gallery[]" id="gallery_imgs" class="hidden" multiple accept="image/*" onchange="previewGallery(this)" required>
+                                <label for="gallery_imgs" class="border-2 border-dashed border-zinc-200 rounded-2xl h-32 flex flex-col items-center justify-center text-zinc-300 hover:text-red-600 hover:border-red-600 hover:bg-zinc-50 transition-all cursor-pointer">
+                                    <i class="fa fa-plus text-xl"></i>
+                                    <span class="text-[9px] font-bold uppercase mt-2 text-center px-2">Pridať ďalšie fotky</span>
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -225,15 +220,14 @@
             variantIndex++;
         }
 
-        function previewImage(input, previewId) {
-            const preview = document.getElementById(previewId);
+        function previewImage(input, targetId) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                       //nahradí vnútro labelu obrázkom
-                    preview.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover">`;
-                    preview.classList.remove('border-dashed');
-                    preview.classList.add('border-solid', 'border-red-600');
+                const target = document.getElementById(targetId);
+                reader.onload = e => {
+                    target.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover">`;
+                    target.classList.remove('border-dashed');
+                    target.classList.add('border-solid', 'border-red-600');
                 }
                 reader.readAsDataURL(input.files[0]);
             }
@@ -241,16 +235,19 @@
 
         function previewGallery(input) {
             const container = document.getElementById('gallery-preview-container');
-            const plusLabel = container.querySelector('label[for="gallery_imgs"]');
+            const addButton = input.nextElementSibling;
             
+            const oldPreviews = container.querySelectorAll('.gallery-preview-item');
+            oldPreviews.forEach(el => el.remove());
+
             if (input.files) {
                 Array.from(input.files).forEach(file => {
                     const reader = new FileReader();
-                    reader.onload = function(e) {
+                    reader.onload = e => {
                         const div = document.createElement('div');
-                        div.className = "h-32 rounded-2xl overflow-hidden border border-zinc-200";
+                        div.className = "gallery-preview-item relative border-2 border-zinc-100 rounded-2xl h-32 overflow-hidden shadow-sm";
                         div.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover">`;
-                        container.insertBefore(div, plusLabel);
+                        container.insertBefore(div, addButton);
                     }
                     reader.readAsDataURL(file);
                 });

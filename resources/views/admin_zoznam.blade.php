@@ -120,7 +120,6 @@
                         @foreach($variants as $variant)
                         <tr class="hover:bg-zinc-50/50 transition-colors group">
                             
-                            {{-- 1. Náhľad (pl-2 podľa hlavičky) --}}
                             <td class="py-5 pl-2">
                                 <div class="w-12 h-12 rounded-xl bg-zinc-100 overflow-hidden border border-zinc-200">
                                     @if($variant->product->images->where('Main', true)->first())
@@ -131,41 +130,29 @@
                                     @endif
                                 </div>
                             </td>
-
-                            {{-- 2. Názov produktu (pr-40 podľa hlavičky) --}}
                             <td class="py-5 pl-20 pr-40">
                                 <div class="text-sm font-black uppercase tracking-tighter italic">
                                     {{ $variant->product->Name }}
                                 </div>
                             </td>
-
-                            {{-- 3. Značka --}}
                             <td class="py-5 px-5">
                                 <div class="text-[10px] font-bold text-red-600 uppercase tracking-widest">
                                     {{ $variant->product->brand->Name ?? 'N/A' }}
                                 </div>
                             </td>
-
-                            {{-- 4. Kategória --}}
                             <td class="py-5 px-5">
                                 <div class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
                                     {{ $variant->product->category->Name ?? 'N/A' }}
                                 </div>
                             </td>
-
-                            {{-- 5. Veľkosť --}}
                             <td class="py-5 px-5 text-center">
                                 <span class="inline-flex items-center px-2.5 py-1 rounded-md bg-zinc-100 text-zinc-900 text-[10px] font-bold uppercase tracking-wider">
                                     EU {{ $variant->Size }}
                                 </span>
                             </td>
-
-                            {{-- 6. Cena --}}
                             <td class="py-5 px-5 font-bold text-sm tracking-tight">
                                 {{ number_format($variant->product->Price, 2, ',', ' ') }} €
                             </td>
-
-                            {{-- 7. Skladom (text-center) --}}
                             <td class="py-5 px-5">
                                 <div class="flex items-center justify-center gap-2">
                                     <div class="w-1.5 h-1.5 rounded-full {{ $variant->Quantity > 0 ? 'bg-green-500' : 'bg-red-500' }}"></div>
@@ -175,15 +162,21 @@
                                 </div>
                             </td>
 
-                            {{-- 8. Akcie (text-right pr-4) --}}
+                            {{-- Akcie upraviť/odstrániť --}}
                             <td class="py-5 pr-4 text-right">
                                 <div class="flex justify-end gap-2">
-                                    <a href="/admin_upravit" class="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-zinc-600 hover:border-zinc-950 hover:text-zinc-950 transition-all shadow-sm">
+                                    <a href="{{ route('admin.products.edit', $variant->product->id) }}" 
+                                    class="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-zinc-600 hover:border-zinc-950 hover:text-zinc-950 transition-all shadow-sm">
                                         <i class="fa fa-pencil text-xs"></i>
                                     </a>
-                                    <button class="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-red-600 hover:border-red-600 hover:bg-red-50 transition-all shadow-sm">
-                                        <i class="fa fa-trash text-xs"></i>
-                                    </button>
+                                    
+                                    <form action="{{ route('admin.variants.destroy', $variant->id) }}" method="POST" onsubmit="return confirm('Naozaj chcete odstrániť tento variant?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-red-600 hover:border-red-600 hover:bg-red-50 transition-all shadow-sm">
+                                            <i class="fa fa-trash text-xs"></i>
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
 
