@@ -116,4 +116,6 @@ Route::get('/potvrdenie_objednavky', function () { return view('potvrdenie_objed
 Route::get('/admin_zoznam', [ProductController::class, 'adminIndex'])->name('admin.products');
 Route::get('/admin_pridat', [ProductController::class, 'adminCreate'])->name('admin.products.create');
 Route::post('/admin_pridat', [ProductController::class, 'adminStore'])->name('admin.products.store');
-Route::get('/admin_upravit', function () { return view('admin_upravit'); });
+Route::delete('/admin_pridat/{id}', [ProductController::class, 'adminVariantDestroy'])->name('admin.variants.destroy');
+Route::get('/admin_upravit/{id}', [ProductController::class, 'adminEdit'])->name('admin.products.edit');
+Route::put('/admin_upravit/{id}', [ProductController::class, 'adminUpdate'])->name('admin.products.update');
