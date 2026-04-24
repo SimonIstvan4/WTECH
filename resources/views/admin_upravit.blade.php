@@ -97,7 +97,7 @@
                         <div class="flex flex-col gap-1 bg-white p-3 rounded-2xl border border-zinc-200 shadow-sm">
                             <span class="text-[10px] font-bold text-zinc-400 uppercase">EU {{ $variant->Size }}</span>
                             <input type="hidden" name="variants[{{ $variant->id }}][id]" value="{{ $variant->id }}">
-                            <input type="number" name="variants[{{ $variant->id }}][quantity]" value="{{ $variant->Quantity }}" class="w-full bg-zinc-100 border-0 rounded-lg py-2 px-3 text-sm font-black outline-none focus:ring-2 focus:ring-red-600 text-center">
+                            <input type="number" name="variants[{{ $variant->id }}][quantity]" min="0" value="{{ $variant->Quantity }}" class="w-full bg-zinc-100 border-0 rounded-lg py-2 px-3 text-sm font-black outline-none focus:ring-2 focus:ring-red-600 text-center">
                         </div>
                     @endforeach
                 </div>
