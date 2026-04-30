@@ -90,80 +90,103 @@
         </div>
     </div>
 
-    <main class="w-full max-w-[1200px] mx-auto px-5 py-8">
+<main class="w-full max-w-[1200px] mx-auto px-5 py-8">
+    
+    <div class="bg-zinc-100 rounded-3xl p-8 md:p-12 shadow-inner border border-zinc-200">
+        <h2 class="text-3xl font-black uppercase tracking-tighter mb-12 italic text-center text-zinc-800">Zhrnutie objednávky</h2>
         
-        <div class="bg-zinc-100 rounded-3xl p-8 md:p-12 shadow-inner border border-zinc-200">
-            <h2 class="text-3xl font-black uppercase tracking-tighter mb-12 italic text-center text-zinc-800">Zhrnutie objednávky</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-                
-                <div class="flex items-start gap-5 bg-white p-5 rounded-2xl shadow-sm">
-                    <div class="w-24 h-24 bg-zinc-100 rounded-xl overflow-hidden flex-shrink-0">
-                        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
-                    </div>
-                    <div class="flex-1 space-y-1">
-                        <h3 class="font-bold text-sm uppercase">Nike</h3>
-                        <p class="text-gray-600 text-xs">Air Max Plus III</p>
-                        <p class="text-[10px] text-gray-400 font-bold uppercase">Veľkosť: 43 | Množstvo: 1</p>
-                        <p class="font-black text-base pt-2 text-black">149,99 €</p>
-                    </div>
-                </div>
+        @foreach($cartItems as $item)
+            @php 
+                $product = $item->variant->product;
+                $image = $product->images->where('Main', true)->first() ?? $product->images->first();
+            @endphp
 
-                <div class="flex items-start gap-5 bg-white p-5 rounded-2xl shadow-sm">
-                    <div class="w-24 h-24 bg-zinc-100 rounded-xl overflow-hidden flex-shrink-0">
-                        <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
-                    </div>
-                    <div class="flex-1 space-y-1">
-                        <h3 class="font-bold text-sm uppercase">Nike</h3>
-                        <p class="text-gray-600 text-xs">Jordan 1 Retro High</p>
-                        <p class="text-[10px] text-gray-400 font-bold uppercase">Veľkosť: 44 | Množstvo: 1</p>
-                        <p class="font-black text-base pt-2 text-black">185,00 €</p>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="h-px bg-zinc-200 w-full mb-10"></div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-12 px-2">
-                <div class="space-y-4">
-                    <div class="flex flex-col">
-                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Zvolená doprava a platba:</span>
-                        <div class="bg-white px-4 py-3 rounded-xl border border-zinc-200 font-bold text-sm uppercase mb-2">
-                            Doručenie na adresu (+3.50€)
-                        </div>
-                        <div class="bg-white px-4 py-3 rounded-xl border border-zinc-200 font-bold text-sm uppercase">
-                            Platba kartou (+0.00€)
-                        </div>
-                    </div>
-                </div>
-                <div class="space-y-4">
-                    <div class="flex flex-col">
-                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Dodacia adresa:</span>
-                        <div class="bg-white px-4 py-3 rounded-xl border border-zinc-200 font-medium text-sm leading-relaxed">
-                            <span class="font-bold block mb-1">Meno Priezvisko</span>
-                            Hlavná 123, 811 01 Bratislava, Slovensko
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex flex-col md:flex-row items-center justify-between gap-8 border-t border-zinc-200 pt-10">
-                <div class="text-center md:text-left">
-                    <span class="text-xs font-bold text-zinc-500 uppercase tracking-widest block mb-1">Celková suma k úhrade</span>
-                    <span class="text-4xl font-black text-black tracking-tighter">338,49 €</span>
+            <div class="flex items-start gap-5 bg-white p-5 rounded-2xl shadow-sm">
+                <div class="w-24 h-24 bg-zinc-100 rounded-xl overflow-hidden flex-shrink-0">
+                    @if($image)
+                        <img src="{{ asset('storage/' . $image->Image_path) }}" 
+                            class="w-full h-full object-cover" 
+                            alt="{{ $product->Name }}">
+                    @else
+                        <div class="w-full h-full flex items-center justify-center text-zinc-300 font-bold uppercase text-[10px]">Bez fotky</div>
+                    @endif
                 </div>
                 
-                <a href="/potvrdenie_objednavky" class="w-full md:w-auto">
-                    <button class="w-full md:px-12 bg-red-600 text-white py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-black transition-all shadow-xl hover:-translate-y-1 transform">
-                        Pokračovať s povinnosťou platby
-                    </button>
-                </a>
+                <div class="flex-1 space-y-1">
+                    <h3 class="font-bold text-sm uppercase">{{ $product->brand->Name ?? 'STREET SHOE' }}</h3>
+                    <p class="text-gray-600 text-xs">{{ $product->Name }}</p>
+                    <p class="text-[10px] text-gray-400 font-bold uppercase">
+                        Veľkosť: {{ $item->variant->Size }} | Množstvo: {{ $item->Quantity }}
+                    </p>
+                    <p class="font-black text-base pt-2 text-black">
+                        {{ number_format($product->Price * $item->Quantity, 2, ',', ' ') }} €
+                    </p>
+                </div>
             </div>
-            
+        @endforeach
+
         </div>
 
-    </main>
+        <div class="h-px bg-zinc-200 w-full mb-10"></div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-12 px-2">
+            <div class="space-y-4">
+                <div class="flex flex-col">
+                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Zvolená doprava a platba:</span>
+                    <div class="bg-white px-4 py-3 rounded-xl border border-zinc-200 font-bold text-sm uppercase mb-2">
+                        {{ session('shipping_name', 'Doprava nevybratá') }} 
+                        (+{{ number_format(session('shipping_price', 0), 2) }} €)
+                    </div>
+                    <div class="bg-white px-4 py-3 rounded-xl border border-zinc-200 font-bold text-sm uppercase">
+                        {{ session('payment_name', 'Platba nevybratá') }} 
+                        (+{{ number_format(session('payment_price', 0), 2) }} €)
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div class="flex flex-col">
+                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Dodacia adresa:</span>
+                    <div class="bg-white px-4 py-3 rounded-xl border border-zinc-200 font-medium text-sm leading-relaxed">
+                        @if(session()->has('checkout_data'))
+                            <span class="font-bold block mb-1">{{ session('checkout_data.name') }}</span>
+                            {{ session('checkout_data.address') }}<br>
+                            {{ session('checkout_data.zip') }} {{ session('checkout_data.city') }}<br>
+                            {{ session('checkout_data.country') }}<br>
+                            <span class="text-xs text-red-600">{{ session('checkout_data.email') }}</span>
+                        @else
+                            <span class="text-gray-400 italic">Údaje neboli zadané</span>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row items-center justify-between gap-8 border-t border-zinc-200 pt-10">
+            <div class="text-center md:text-left">
+                <span class="text-xs font-bold text-zinc-500 uppercase tracking-widest block mb-1">Celková suma k úhrade</span>
+                <span class="text-4xl font-black text-black tracking-tighter">
+                    @php
+                        $grandTotal = $productsTotal + session('shipping_price', 0) + session('payment_price', 0);
+                    @endphp
+                    
+                    {{ number_format($grandTotal, 2, ',', ' ') }} €
+                </span>
+            </div>
+            
+            <form action="{{ route('objednavka.finalizovat') }}" method="POST">
+                @csrf
+                <button type="submit" class="w-full bg-red-600 text-white py-4 rounded-lg font-bold uppercase hover:bg-red-700 transition">
+                    Pokračovať s povinnosťou platby
+                </button>
+            </form>
+        </div>
+        
+    </div>
+
+</main>
 
 @guest
     <footer class="bg-zinc-950 py-[50px] px-5 text-center mt-[75px] text-white">
