@@ -238,7 +238,7 @@
                         <div class="space-y-1">
                             <p class="font-bold text-sm md:text-base tracking-tight group-hover:text-red-600 transition-colors">{{ $product->brand ? $product->brand->Name : 'Neznáma značka' }}</p>
                             <p class="text-gray-600 text-xs truncate">{{ $product->Name }}</p>
-                            <p class="text-gray-400 text-[10px] uppercase font-medium tracking-widest">{{ $product->category ? $product->category->Name : 'Unisex' }}</p>
+                            <p class="text-gray-400 text-[10px] uppercase font-medium tracking-widest">{{ $product->category->Name }}</p>
                             <p class="font-black text-sm md:text-lg">{{ number_format($product->Price, 2, ',', ' ') }} €</p>
                         </div>
                     </a>

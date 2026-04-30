@@ -33,7 +33,7 @@
             <a href="{{ route('admin.products') }}" class="text-[11px] font-bold uppercase tracking-widest text-zinc-400 hover:text-red-600 transition-colors flex items-center gap-2 mb-4">
                 <i class="fa fa-arrow-left"></i> Späť na zoznam
             </a>
-            <h1 class="text-4xl font-black uppercase tracking-tighter italic">Upraviť produkt <span class="text-red-600">#{{ $product->id }}</span></h1>
+            <h1 class="text-4xl font-black uppercase tracking-tighter italic">Úprava produktu</span></h1>
         </div>
 
         <form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="bg-white rounded-[32px] shadow-sm border border-zinc-100 p-6 md:p-10">

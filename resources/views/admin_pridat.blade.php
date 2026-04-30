@@ -102,11 +102,11 @@
 
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-2">Sezóna *</label>
-                        <select name="Season" class="w-full bg-zinc-100 border-0 rounded-xl py-4 px-5 text-sm font-bold focus:ring-2 focus:ring-red-600 outline-none transition-all cursor-pointer">
-                            <option value="leto" {{ old('Season') == 'leto' ? 'selected' : '' }}>Letné</option>
-                            <option value="zima" {{ old('Season') == 'zima' ? 'selected' : '' }}>Zimné</option>
-                            <option value="prechodne" {{ old('Season') == 'prechodne' ? 'selected' : '' }}>Prechodné</option>
-                            <option value="vsetko" {{ old('Season') == 'vsetko' || !old('Season') ? 'selected' : '' }}>Celoročné</option>
+                       <select name="Season" class="w-full bg-zinc-100 border-0 rounded-xl py-4 px-5 text-sm font-bold focus:ring-2 focus:ring-red-600 outline-none transition-all cursor-pointer">
+                            <option value="Letné" {{ old('Season') == 'Letné' ? 'selected' : '' }}>Letné</option>
+                            <option value="Zimné" {{ old('Season') == 'Zimné' ? 'selected' : '' }}>Zimné</option>
+                            <option value="Prechodné" {{ old('Season') == 'Prechodné' ? 'selected' : '' }}>Prechodné</option>
+                            <option value="Celoročné" {{ old('Season') == 'Celoročné' || !old('Season') ? 'selected' : '' }}>Celoročné</option>
                         </select>
                     </div>
                 </div>

@@ -87,7 +87,7 @@
         <a href="/kategoria?gender=deti" class="relative group text-[14px] font-bold uppercase text-gray-800 hover:text-red-600">
             DETI <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-600 transition-all group-hover:w-full"></span>
         </a>
-        <a href="/kategoria" class="relative group text-[14px] font-bold uppercase text-gray-800 hover:text-red-600">
+        <a href="/kategoria?gender=unisex" class="relative group text-[14px] font-bold uppercase text-gray-800 hover:text-red-600">
             UNISEX <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-600 transition-all group-hover:w-full"></span>
         </a>
     </nav>
@@ -138,9 +138,16 @@
     <h1 class="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-4 italic leading-[0.9]">
         {{ $product->Name }}
     </h1>
-    <p class="text-gray-500 text-lg mb-8 font-medium italic">
-        {{ $product->category->Name ?? 'Voľnočasová obuv' }}
-    </p>
+    
+    <div class="flex items-center gap-3 mb-8">
+        <p class="text-gray-500 text-lg font-medium italic">
+            {{ $product->category->Name }}
+        </p>
+        <span class="text-zinc-300">|</span>
+        <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400 italic">
+            {{ $product->Season }}
+        </p>
+    </div>
     
     <p class="text-4xl font-black mb-10 tracking-tight">
         {{ number_format($product->Price, 2, ',', ' ') }} €
