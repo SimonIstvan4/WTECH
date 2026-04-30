@@ -90,7 +90,9 @@
         </div>
     </div>
 
-    <main class="w-full max-w-[1200px] mx-auto px-5 py-8 grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+<main class="w-full max-w-[1200px] mx-auto px-5 py-8">
+    <form action="{{ route('zhrnutie.process') }}" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+        @csrf
         
         <div class="bg-zinc-100 rounded-3xl p-8 shadow-inner border border-zinc-200 h-fit">
             <h2 class="text-2xl font-black uppercase tracking-tighter mb-8 italic text-zinc-800">Dodacie údaje</h2>
@@ -98,33 +100,33 @@
             <div class="space-y-4">
                 <div>
                     <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1 ml-1">E-mail</label>
-                    <input type="email" class="w-full px-4 py-3 rounded-xl border border-zinc-200 outline-none focus:border-red-600 transition-colors bg-white font-medium">
+                    <input type="email" name="email" required class="w-full px-4 py-3 rounded-xl border border-zinc-200 outline-none focus:border-red-600 transition-colors bg-white font-medium">
                 </div>
                 <div>
                     <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1 ml-1">Meno a priezvisko</label>
-                    <input type="text" class="w-full px-4 py-3 rounded-xl border border-zinc-200 outline-none focus:border-red-600 transition-colors bg-white font-medium">
+                    <input type="text" name="name" required class="w-full px-4 py-3 rounded-xl border border-zinc-200 outline-none focus:border-red-600 transition-colors bg-white font-medium">
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1 ml-1">Krajina</label>
-                        <select class="w-full px-4 py-3 rounded-xl border border-zinc-200 outline-none focus:border-red-600 transition-colors bg-white font-medium appearance-none">
-                            <option>Slovensko</option>
-                            <option>Česko</option>
+                        <select name="country" required class="w-full px-4 py-3 rounded-xl border border-zinc-200 outline-none focus:border-red-600 transition-colors bg-white font-medium appearance-none">
+                            <option value="Slovensko">Slovensko</option>
+                            <option value="Česko">Česko</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1 ml-1">Mesto</label>
-                        <input type="text" class="w-full px-4 py-3 rounded-xl border border-zinc-200 outline-none focus:border-red-600 transition-colors bg-white font-medium">
+                        <input type="text" name="city" required class="w-full px-4 py-3 rounded-xl border border-zinc-200 outline-none focus:border-red-600 transition-colors bg-white font-medium">
                     </div>
                 </div>
                 <div class="grid grid-cols-3 gap-4">
                     <div class="col-span-1">
                         <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1 ml-1">PSČ</label>
-                        <input type="text" class="w-full px-4 py-3 rounded-xl border border-zinc-200 outline-none focus:border-red-600 transition-colors bg-white font-medium">
+                        <input type="text" name="zip" required class="w-full px-4 py-3 rounded-xl border border-zinc-200 outline-none focus:border-red-600 transition-colors bg-white font-medium">
                     </div>
                     <div class="col-span-2">
                         <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1 ml-1">Ulica a číslo</label>
-                        <input type="text" class="w-full px-4 py-3 rounded-xl border border-zinc-200 outline-none focus:border-red-600 transition-colors bg-white font-medium">
+                        <input type="text" name="address" required class="w-full px-4 py-3 rounded-xl border border-zinc-200 outline-none focus:border-red-600 transition-colors bg-white font-medium">
                     </div>
                 </div>
             </div>
@@ -136,7 +138,7 @@
             <div class="space-y-3 mb-6">
                 <label class="flex items-center justify-between p-3 bg-white border border-zinc-200 rounded-2xl cursor-pointer hover:border-red-600 transition-all group">
                     <div class="flex items-center gap-3">
-                        <input type="radio" name="doprava" class="w-4 h-4 accent-red-600">
+                        <input type="radio" name="doprava" value="kurier" required class="w-4 h-4 accent-red-600">
                         <span class="font-bold text-[13px] uppercase tracking-wide">Doručenie na adresu</span>
                     </div>
                     <span class="font-black text-xs text-zinc-500">+3.50€</span>
@@ -144,16 +146,8 @@
 
                 <label class="flex items-center justify-between p-3 bg-white border border-zinc-200 rounded-2xl cursor-pointer hover:border-red-600 transition-all group">
                     <div class="flex items-center gap-3">
-                        <input type="radio" name="doprava" class="w-4 h-4 accent-red-600">
-                        <span class="font-bold text-[13px] uppercase tracking-wide">Doručenie na predajňu</span>
-                    </div>
-                    <span class="font-black text-xs text-green-600">+0.00€</span>
-                </label>
-
-                <label class="flex items-center justify-between p-3 bg-white border border-zinc-200 rounded-2xl cursor-pointer hover:border-red-600 transition-all group">
-                    <div class="flex items-center gap-3">
-                        <input type="radio" name="doprava" class="w-4 h-4 accent-red-600">
-                        <span class="font-bold text-[13px] uppercase tracking-wide text-left leading-tight">Doručenie na odberné miesto <br></span>
+                        <input type="radio" name="doprava" value="odberne_miesto" required class="w-4 h-4 accent-red-600">
+                        <span class="font-bold text-[13px] uppercase tracking-wide">Doručenie na odberné miesto</span>
                     </div>
                     <span class="font-black text-xs text-zinc-500">+2.50€</span>
                 </label>
@@ -163,7 +157,7 @@
             <div class="space-y-3 mb-10">
                 <label class="flex items-center justify-between p-3 bg-white border border-zinc-200 rounded-2xl cursor-pointer hover:border-red-600 transition-all group">
                     <div class="flex items-center gap-3">
-                        <input type="radio" name="platba" class="w-4 h-4 accent-red-600">
+                        <input type="radio" name="platba" value="karta" required class="w-4 h-4 accent-red-600">
                         <span class="font-bold text-[13px] uppercase tracking-wide">Platba kartou</span>
                     </div>
                     <span class="font-black text-xs text-green-600">+0.00€</span>
@@ -171,21 +165,19 @@
 
                 <label class="flex items-center justify-between p-3 bg-white border border-zinc-200 rounded-2xl cursor-pointer hover:border-red-600 transition-all group">
                     <div class="flex items-center gap-3">
-                        <input type="radio" name="platba" class="w-4 h-4 accent-red-600">
+                        <input type="radio" name="platba" value="dobierka" required class="w-4 h-4 accent-red-600">
                         <span class="font-bold text-[13px] uppercase tracking-wide">Platba na dobierku</span>
                     </div>
                     <span class="font-black text-xs text-zinc-500">+3.00€</span>
                 </label>
             </div>
 
-            <a href="/zhrnutie" class="block w-full">
-                <button class="w-full bg-red-600 text-white py-4 rounded-xl font-bold text-sm uppercase tracking-widest hover:bg-black transition-all shadow-md hover:-translate-y-1 transform">
-                    Pokračovať na zhrnutie objednávky
-                </button>
-            </a>
+            <button type="submit" class="w-full bg-red-600 text-white py-4 rounded-xl font-bold text-sm uppercase tracking-widest hover:bg-black transition-all shadow-md hover:-translate-y-1 transform">
+                Pokračovať na zhrnutie objednávky
+            </button>
         </div>
-
-    </main>
+    </form>
+</main>
 
 
 
