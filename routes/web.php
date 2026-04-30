@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartController;
 use App\Models\Order;
+use App\Http\Controllers\OrderController;
 
 
 Route::post('/login', function (Request $request) {
@@ -108,14 +109,22 @@ Route::get('/login', function () { return view('login'); });
 Route::get('/kategoria', [CategoryController::class, 'index']);
 Route::get('/produkt/{id}', [ProductController::class, 'show'])->name('product.show');
 
-Route::get('/doprava', function () { return view('doprava'); });
-Route::get('/zhrnutie', function () { return view('zhrnutie'); });
-Route::get('/potvrdenie_objednavky', function () { return view('potvrdenie_objednavky'); });
+Route::get('/doprava', function () { return view('doprava'); })->name('doprava.show');
+
+Route::post('/zhrnutie/spracovat', [OrderController::class, 'processOrder'])->name('zhrnutie.process');
+
+Route::get('/zhrnutie', [OrderController::class, 'showSummary'])->name('zhrnutie.show');
+
+Route::post('/potvrdenie_objednavky', function () { 
+    return view('objednavka_finalizovat'); 
+})->name('objednavka.finalizovat');
+Route::post('/potvrdenie_objednavky', [OrderController::class, 'processPayment'])->name('objednavka.finalizovat');
+
+
+
 
 //admin časť
 Route::get('/admin_zoznam', [ProductController::class, 'adminIndex'])->name('admin.products');
 Route::get('/admin_pridat', [ProductController::class, 'adminCreate'])->name('admin.products.create');
 Route::post('/admin_pridat', [ProductController::class, 'adminStore'])->name('admin.products.store');
-Route::delete('/admin_pridat/{id}', [ProductController::class, 'adminVariantDestroy'])->name('admin.variants.destroy');
-Route::get('/admin_upravit/{id}', [ProductController::class, 'adminEdit'])->name('admin.products.edit');
-Route::put('/admin_upravit/{id}', [ProductController::class, 'adminUpdate'])->name('admin.products.update');
+Route::get('/admin_upravit', function () { return view('admin_upravit'); });
