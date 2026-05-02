@@ -24,7 +24,7 @@ class ProductController extends Controller
     public function adminStore(Request $request)
     {
         $request->validate([
-            'Name' => 'required|string|max:255',
+            'Name' => 'required|string|max:35',
             'Price' => 'required|numeric',
             'Category_id' => 'required|exists:Category,id',
             'Brand_id' => 'required|exists:Brand,id',
@@ -189,7 +189,7 @@ class ProductController extends Controller
         $product = Product::with('images')->findOrFail($id);
 
         $request->validate([
-            'Name' => 'required|string|max:255',
+            'Name' => 'required|string|max:35',
             'Price' => 'required|numeric',
             'Category_id' => 'required|exists:Category,id',
             'Brand_id' => 'required|exists:Brand,id',
