@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Správa produktov</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body class="m-0 font-sans bg-zinc-50 text-zinc-900">
@@ -186,42 +187,78 @@
                 </table>
             </div>
 
-            <div class="mt-8 flex justify-between items-center border-t border-zinc-100 pt-6">
+            <div class="mt-8 flex flex-col md:flex-row justify-between items-center border-t border-zinc-100 pt-6 gap-6">
+                {{-- Info o zobrazení --}}
                 <span class="text-xs font-bold text-zinc-400 uppercase tracking-widest">
                     Zobrazené {{ $variants->firstItem() }}-{{ $variants->lastItem() }} z {{ $variants->total() }}
                 </span>
                 
-                <div class="flex gap-2">
-                    {{-- Predchádzajúca strana --}}
-                    @if ($variants->onFirstPage())
-                        <span class="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-400 cursor-not-allowed">
-                            <i class="fa fa-chevron-left text-xs"></i>
-                        </span>
-                    @else
-                        <a href="{{ $variants->previousPageUrl() }}" class="w-10 h-10 rounded-full bg-zinc-100 hover:bg-zinc-200 transition-colors flex items-center justify-center text-zinc-900">
-                            <i class="fa fa-chevron-left text-xs"></i>
-                        </a>
-                    @endif
-
-                    {{-- Čísla strán --}}
-                    @foreach ($variants->getUrlRange(1, $variants->lastPage()) as $page => $url)
-                        @if ($page == $variants->currentPage())
-                            <span class="w-10 h-10 rounded-full bg-zinc-950 text-white flex items-center justify-center font-bold text-xs shadow-lg shadow-zinc-200">{{ $page }}</span>
+                <div class="flex flex-wrap justify-center gap-4 items-center">
+                    {{-- Číselné stránkovanie --}}
+                    <div class="flex gap-2 items-center">
+                        @if ($variants->onFirstPage())
+                            <span class="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-400 cursor-not-allowed">
+                                <i class="fa fa-chevron-left text-xs"></i>
+                            </span>
                         @else
-                            <a href="{{ $url }}" class="w-10 h-10 rounded-full bg-zinc-100 hover:bg-zinc-200 transition-colors flex items-center justify-center font-bold text-xs">{{ $page }}</a>
+                            <a href="{{ $variants->previousPageUrl() }}" class="w-10 h-10 rounded-full bg-zinc-100 hover:bg-zinc-200 transition-colors flex items-center justify-center text-zinc-900">
+                                <i class="fa fa-chevron-left text-xs"></i>
+                            </a>
                         @endif
-                    @endforeach
 
-                    {{-- Nasledujúca strana --}}
-                    @if ($variants->hasMorePages())
-                        <a href="{{ $variants->nextPageUrl() }}" class="w-10 h-10 rounded-full bg-zinc-100 hover:bg-zinc-200 transition-colors flex items-center justify-center text-zinc-900">
-                            <i class="fa fa-chevron-right text-xs"></i>
-                        </a>
-                    @else
-                        <span class="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-400 cursor-not-allowed">
-                            <i class="fa fa-chevron-right text-xs"></i>
-                        </span>
-                    @endif
+                        @if($variants->currentPage() > 2)
+                            <a href="{{ $variants->url(1) }}" class="w-10 h-10 rounded-full bg-zinc-100 hover:bg-zinc-200 transition-colors flex items-center justify-center font-bold text-xs">1</a>
+                            @if($variants->currentPage() > 3)
+                                <span class="text-zinc-400 px-1 italic">...</span>
+                            @endif
+                        @endif
+
+                        @foreach (range(max(1, $variants->currentPage() - 1), min($variants->lastPage(), $variants->currentPage() + 1)) as $page)
+                            @if ($page == $variants->currentPage())
+                                <span class="w-10 h-10 rounded-full bg-zinc-950 text-white flex items-center justify-center font-bold text-xs shadow-lg shadow-zinc-200">{{ $page }}</span>
+                            @else
+                                <a href="{{ $variants->url($page) }}" class="w-10 h-10 rounded-full bg-zinc-100 hover:bg-zinc-200 transition-colors flex items-center justify-center font-bold text-xs">{{ $page }}</a>
+                            @endif
+                        @endforeach
+
+                        @if($variants->currentPage() < $variants->lastPage() - 1)
+                            @if($variants->currentPage() < $variants->lastPage() - 2)
+                                <span class="text-zinc-400 px-1 italic">...</span>
+                            @endif
+                            <a href="{{ $variants->url($variants->lastPage()) }}" class="w-10 h-10 rounded-full bg-zinc-100 hover:bg-zinc-200 transition-colors flex items-center justify-center font-bold text-xs">{{ $variants->lastPage() }}</a>
+                        @endif
+
+                        @if ($variants->hasMorePages())
+                            <a href="{{ $variants->nextPageUrl() }}" class="w-10 h-10 rounded-full bg-zinc-100 hover:bg-zinc-200 transition-colors flex items-center justify-center text-zinc-900">
+                                <i class="fa fa-chevron-right text-xs"></i>
+                            </a>
+                        @else
+                            <span class="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-400 cursor-not-allowed">
+                                <i class="fa fa-chevron-right text-xs"></i>
+                            </span>
+                        @endif
+                    </div>
+
+                    {{-- skok na stranu --}}
+                    <div x-data="{ 
+                            jumpPage: {{ $variants->currentPage() }},
+                            lastPage: {{ $variants->lastPage() }},
+                            baseUrl: '{{ $variants->url('999') }}',
+                            goToPage() {
+                                if (this.jumpPage < 1) this.jumpPage = 1;
+                                if (this.jumpPage > this.lastPage) this.jumpPage = this.lastPage;
+                                window.location.href = this.baseUrl.replace('999', this.jumpPage);
+                            }
+                        }" 
+                        class="flex items-center gap-2 bg-zinc-100 rounded-full px-2 py-1 border border-zinc-200">
+                        <span class="text-[9px] font-black uppercase tracking-widest text-zinc-400 pl-2">Skok na</span>
+                        <input type="number" x-model.number="jumpPage" min="1" :max="lastPage"@keydown.enter="goToPage()"
+                            class="w-10 h-8 bg-white border-0 rounded-full text-center text-xs font-bold focus:ring-2 focus:ring-red-600 outline-none">
+                        <button @click="goToPage()" 
+                                class="w-8 h-8 rounded-full bg-zinc-950 text-white flex items-center justify-center hover:bg-red-600 transition-all">
+                            <i class="fa fa-arrow-right text-[10px]"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
 
