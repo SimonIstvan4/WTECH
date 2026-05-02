@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Pridať produkt</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>[x-cloak] { display: none !important; }</style>
 </head>
 <body class="m-0 font-sans bg-zinc-50 text-zinc-900">
 
@@ -56,10 +58,20 @@
             @endif
            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="flex flex-col gap-6">
-                    <div>
-                        <label class="block text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-2">Názov produktu *</label>
-                        <input type="text" name="Name" id="productName" value="{{ old('Name') }}" required placeholder="napr. Air Max 1" 
-                            class="w-full bg-zinc-100 border-0 rounded-xl py-4 px-5 text-sm font-bold focus:ring-2 focus:ring-red-600 outline-none transition-all">
+                    <div x-data="{ name: '{{ old('Name', $product->Name ?? '') }}', max: 35 }" x-cloak>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="block text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+                                Názov produktu *
+                            </label>
+                        </div>
+                        <input type="text" name="Name" id="productName" x-model="name" maxlength="35" required placeholder="napr. Air Max 1" 
+                            class="w-full bg-zinc-100 border-0 rounded-xl py-4 px-5 text-sm font-bold focus:ring-2 focus:ring-red-600 outline-none transition-all"
+                            :class="name.length >= max ? 'ring-2 ring-red-600' : ''">
+                        
+                        <p x-show="name.length >= max" 
+                        class="text-[9px] text-red-600 font-bold uppercase mt-2 italic tracking-wider">
+                            Dosiahnutá maximálna dĺžka názvu produktu
+                        </p>
                     </div>
 
                     <div>

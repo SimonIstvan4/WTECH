@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Upraviť produkt</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>[x-cloak] { display: none !important; }</style>
 </head>
 <body class="m-0 font-sans bg-zinc-50 text-zinc-900">
 
@@ -43,9 +45,20 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 
                 <div class="flex flex-col gap-6">
-                    <div>
-                        <label class="block text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-2">Názov produktu</label>
-                        <input type="text" name="Name" value="{{ old('Name', $product->Name) }}" required class="w-full bg-zinc-100 border-0 rounded-xl py-4 px-5 text-sm font-bold focus:ring-2 focus:ring-red-600 outline-none transition-all">
+                    <div x-data="{ name: @js(old('Name', $product->Name)), max: 35 }" x-cloak>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="block text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+                                Názov produktu *
+                            </label>
+                        </div>
+                        <input type="text" name="Name" x-model="name" maxlength="35" required placeholder="napr. Air Max 1" 
+                            class="w-full bg-zinc-100 border-0 rounded-xl py-4 px-5 text-sm font-bold focus:ring-2 focus:ring-red-600 outline-none transition-all"
+                            :class="name.length >= max ? 'ring-2 ring-red-600' : ''">
+                        
+                        <p x-show="name.length >= max" 
+                        class="text-[9px] text-red-600 font-bold uppercase mt-2 italic tracking-wider">
+                            Dosiahnutá maximálna dĺžka názvu produktu
+                        </p>
                     </div>
 
                     <div>
@@ -81,9 +94,10 @@
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-2">Sezóna</label>
                         <select name="Season" class="w-full bg-zinc-100 border-0 rounded-xl py-4 px-5 text-sm font-bold focus:ring-2 focus:ring-red-600 outline-none transition-all cursor-pointer">
-                            <option value="Celoročné" {{ $product->Season == 'Celoročné' ? 'selected' : '' }}>Celoročné</option>
-                            <option value="Leto" {{ $product->Season == 'Leto' ? 'selected' : '' }}>Leto</option>
-                            <option value="Zima" {{ $product->Season == 'Zima' ? 'selected' : '' }}>Zima</option>
+                            <option value="Celoročné" {{ old('Season', $product->Season) == 'Celoročné' ? 'selected' : '' }}>Celoročné</option>
+                            <option value="Letné" {{ old('Season', $product->Season) == 'Letné' ? 'selected' : '' }}>Letné</option>
+                            <option value="Zimné" {{ old('Season', $product->Season) == 'Zimné' ? 'selected' : '' }}>Zimné</option>
+                            <option value="Prechodné" {{ old('Season', $product->Season) == 'Prechodné' ? 'selected' : '' }}>Prechodné</option>
                         </select>
                     </div>
                 </div>
