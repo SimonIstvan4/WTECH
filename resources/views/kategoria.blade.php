@@ -198,7 +198,7 @@
                     Použiť filtre
                 </button>
 
-                <a href="{{ url()->current() }}" class="text-center text-[10px] uppercase font-bold text-gray-400 hover:text-red-600">Vymazať filtre</a>
+               <a href="{{ url()->current() . '?gender=' . request('gender') }}" class="text-center text-[10px] uppercase font-bold text-gray-400 hover:text-red-600">Vymazať filtre</a>
             </form>
         </aside>
 
