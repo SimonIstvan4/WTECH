@@ -35,6 +35,12 @@ class ProductController extends Controller
             'gallery.*' => 'nullable|file|mimes:jpeg,png,jpg,webp,avif|max:5120'
         ]);
 
+        if (!$request->hasFile('gallery') || count($request->file('gallery')) < 1) {
+        return back()
+            ->withInput()     //aby nevymazalo ostatny text vo formulari
+            ->with('error_alert', 'Nepodarilo sa uložiť. Musíte nahrať hlavnú fotku a aspoň jednu ďalšiu fotku do galérie.');
+        }
+
         //vytvorenie produktu
         $product = Product::create([
             'Name' => $request->Name,
@@ -71,21 +77,7 @@ class ProductController extends Controller
             ]);
         }
 
-        if ($request->hasFile('side_image')) {
-            $file = $request->file('side_image');
-    
-            $originalName = $file->getClientOriginalName();
-            $filename = $originalName;      
-            $path = $file->storeAs('products', $filename, 'public');
-            
-            ProductImage::create([
-                'Product_id' => $product->id,
-                'Image_path' => $filename,
-                'Main' => false
-            ]);
-        }
-
-        //dalšie fotky(ak sú)
+        //dalšie fotky
         if ($request->hasFile('gallery')) {
             foreach ($request->file('gallery') as $key => $file) {
                 $originalName = $file->getClientOriginalName();
@@ -200,7 +192,7 @@ class ProductController extends Controller
         $newCount = $request->hasFile('gallery') ? count($request->file('gallery')) : 0;
 
         if (($currentSecondary - $toDelete + $newCount) < 1) {
-            return back()->withErrors(['gallery' => 'Produkt musí mať aspopping aspoň jednu ďalšiu fotku v galérii.']);
+            return back()->with('error_alert', 'Nepodarilo sa uložiť. Produkt musí mať hlavnú fotku a aspoň jednu ďalšiu fotku.');
         }
 
         $product->update($request->only(['Name', 'Price', 'Description', 'Brand_id', 'Category_id', 'Season']));
