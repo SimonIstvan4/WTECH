@@ -33,7 +33,7 @@
             </h1>
             
             <p class="text-xl font-bold text-zinc-600 mb-8">
-                Vaša objednávka <span class="text-red-600">#20260324</span> bola úspešne vytvorená.
+                Vaša objednávka <span class="text-red-600">#{{ $order->id }}</span> bola úspešne vytvorená.
             </p>
 
             <div class="space-y-4 max-w-md mx-auto mb-12 text-zinc-500 font-medium leading-relaxed">
