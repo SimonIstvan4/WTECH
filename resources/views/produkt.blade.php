@@ -14,6 +14,12 @@
         <span class="font-bold">Doprava zadarmo</span> pri nákupe nad 120 €
     </div>
 
+    @if(session('success'))
+        <script>
+            alert("{{ session('success') }}");
+        </script>
+    @endif
+
 <header class="bg-white px-[5%] py-4 border-b border-gray-100 top-0 z-50">
     <div class="flex flex-col md:flex-row justify-between items-center gap-4 max-w-7xl mx-auto">
         
