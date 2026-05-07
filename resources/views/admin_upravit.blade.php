@@ -11,6 +11,12 @@
 </head>
 <body class="m-0 font-sans bg-zinc-50 text-zinc-900">
 
+    @if(session('error_alert'))
+        <script>
+            alert("{{ session('error_alert') }}");
+        </script>
+    @endif
+
     <header class="bg-zinc-950 text-white px-[5%] py-4 sticky top-0 z-50 shadow-md">
         <div class="flex justify-between items-center max-w-7xl mx-auto">
             <div class="text-2xl font-black uppercase tracking-tighter italic flex items-center gap-3">
@@ -68,7 +74,7 @@
 
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-2">Cena (€)</label>
-                        <input type="number" name="Price" step="0.01" value="{{ old('Price', $product->Price) }}" required class="w-full bg-zinc-100 border-0 rounded-xl py-4 px-5 text-sm font-black italic focus:ring-2 focus:ring-red-600 outline-none transition-all">
+                        <input type="number" name="Price" min="1" step="0.01" value="{{ old('Price', $product->Price) }}" required class="w-full bg-zinc-100 border-0 rounded-xl py-4 px-5 text-sm font-black italic focus:ring-2 focus:ring-red-600 outline-none transition-all">
                     </div>
                 </div>
 
@@ -232,6 +238,7 @@
                 });
             }
         }
+
     </script>
 
 </body>

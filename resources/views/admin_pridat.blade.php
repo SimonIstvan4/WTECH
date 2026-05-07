@@ -11,6 +11,12 @@
 </head>
 <body class="m-0 font-sans bg-zinc-50 text-zinc-900">
 
+    @if(session('error_alert'))
+        <script>
+            alert("{{ session('error_alert') }}");
+        </script>
+    @endif
+
     <header class="bg-zinc-950 text-white px-[5%] py-4 sticky top-0 z-50 shadow-md">
         <div class="flex justify-between items-center max-w-7xl mx-auto">
             <div class="text-2xl font-black uppercase tracking-tighter italic flex items-center gap-3">
@@ -76,13 +82,13 @@
 
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-2">Opis produktu</label>
-                        <textarea name="Description" id="productDesc" required rows="3" placeholder="Detailný popis produktu..." 
+                        <textarea name="Description" id="productDesc" rows="3" placeholder="Detailný popis produktu..." 
                             class="w-full bg-zinc-100 border-0 rounded-xl py-4 px-5 text-sm focus:ring-2 focus:ring-red-600 outline-none transition-all resize-none">{{ old('Description') }}</textarea>
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-2">Cena (€) *</label>
-                        <input type="number" step="0.01" name="Price" value="{{ old('Price') }}" required placeholder="0.00" 
+                        <input type="number" step="0.01" name="Price" min="1" value="{{ old('Price') }}" required placeholder="0.00" 
                             class="w-full bg-zinc-100 border-0 rounded-xl py-4 px-5 text-sm font-black italic focus:ring-2 focus:ring-red-600 outline-none transition-all">
                     </div>
                 </div>
@@ -133,13 +139,13 @@
                     <div class="variant-row grid grid-cols-1 md:grid-cols-2 gap-8 p-4 bg-zinc-50 rounded-2xl relative border border-transparent hover:border-zinc-200 transition-all">
                         <div>
                             <label class="block text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-2">Počet kusov *</label>
-                            <input type="number" name="variants[0][quantity]" required placeholder="0" 
+                            <input type="number" min="0" name="variants[0][quantity]" required placeholder="0" 
                                 class="w-full bg-white border-0 rounded-xl py-4 px-5 text-sm font-black italic focus:ring-2 focus:ring-red-600 outline-none transition-all shadow-sm">
                         </div>
 
                         <div>
                             <label class="block text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-2">Veľkosť (EU) *</label>
-                            <input type="number" step="0.1" name="variants[0][size]" required placeholder="40" 
+                            <input type="number" min="29" max="46" step="0.1" name="variants[0][size]" required placeholder="40" 
                                 class="w-full bg-white border-0 rounded-xl py-4 px-5 text-sm font-black italic focus:ring-2 focus:ring-red-600 outline-none transition-all shadow-sm">
                         </div>
                     </div>
@@ -168,7 +174,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div class="space-y-2">
                             <label class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 pl-1">Hlavná foto *</label>
-                            <input type="file" name="main_image" id="main_img" class="hidden" accept="image/*" onchange="previewImage(this, 'preview-main')" required>
+                            <input type="file" name="main_image" id="main_img" class="hidden" accept="image/*" onchange="previewImage(this, 'preview-main')" >
                             <label for="main_img" id="preview-main" class="border-2 border-dashed border-zinc-200 rounded-3xl h-64 flex flex-col items-center justify-center text-zinc-300 hover:text-red-600 hover:border-red-600 hover:bg-red-50 transition-all group cursor-pointer overflow-hidden relative">
                                 <i class="fa fa-cloud-upload text-3xl mb-2 group-hover:scale-110 transition-transform"></i>
                                 <span class="text-[10px] font-bold uppercase tracking-widest text-center px-4">Nahrať hlavnú foto</span>
@@ -178,7 +184,7 @@
                         <div class="md:col-span-2 space-y-2">
                             <label class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 pl-1">Ostatné fotografie *</label>
                             <div id="gallery-preview-container" class="grid grid-cols-2 sm:grid-cols-3 gap-4">                                
-                                <input type="file" name="gallery[]" id="gallery_imgs" class="hidden" multiple accept="image/*" onchange="previewGallery(this)" required>
+                                <input type="file" name="gallery[]" id="gallery_imgs" class="hidden" multiple accept="image/*" onchange="previewGallery(this)" >
                                 <label for="gallery_imgs" class="border-2 border-dashed border-zinc-200 rounded-2xl h-32 flex flex-col items-center justify-center text-zinc-300 hover:text-red-600 hover:border-red-600 hover:bg-zinc-50 transition-all cursor-pointer">
                                     <i class="fa fa-plus text-xl"></i>
                                     <span class="text-[9px] font-bold uppercase mt-2 text-center px-2">Pridať ďalšie fotky</span>
@@ -265,6 +271,7 @@
                 });
             }
         }
+
     </script>
 </body>
 </html>
