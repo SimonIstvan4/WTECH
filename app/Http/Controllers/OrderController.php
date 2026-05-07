@@ -92,6 +92,6 @@ public function processPayment(Request $request)
         $order->save();
     });
 
-    return view('potvrdenie_objednavky');
+    return view('potvrdenie_objednavky', ['order' => $order]);
 }
 }
