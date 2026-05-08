@@ -19,23 +19,33 @@ Route::post('/login', function (Request $request) {
         'password' => 'required',
     ]);
 
+    $anonymousSessionId = session()->getId();
     //nájdenie užívateľa v databáze
     $user = User::where('email', $request->email)->first();
 
-    if ($user && Hash::check($request->password, $user->password)) {
-        //prihlásenie sa do systému
-        Auth::login($user);
 
-        $sessionId = session()->getId();
-        $guestOrder = Order::where('Session_id', $sessionId)->where('Paid', false)->first();
+    if ($user && Hash::check($request->password, $user->password)) {
+        Auth::login($user);
+        
+
+        $guestOrder = Order::where('Session_id', $anonymousSessionId)
+                           ->where('Paid', false)
+                           ->whereNull('User_id') 
+                           ->first();
 
         if ($guestOrder) {
-            $userOrder = Order::where('User_id', $user->id)->where('Paid', false)->first();
+            // hľadáme, či už prihlásený užívateľ má nejaký svoj košík
+            $userOrder = Order::where('User_id', $user->id)
+                              ->where('Paid', false)
+                              ->first();
 
             if ($userOrder) {
-                //ak mal používateľ v košíku veci už predtým tak sa spoja
+                // ak majú obaja niečo v košíku, spojíme ich
                 foreach ($guestOrder->items as $item) {
-                    $existingItem = $userOrder->items()->where('Product_variant_id', $item->Product_variant_id)->first();
+                    $existingItem = $userOrder->items()
+                        ->where('Product_variant_id', $item->Product_variant_id)
+                        ->first();
+
                     if ($existingItem) {
                         $existingItem->increment('Quantity', $item->Quantity);
                         $item->delete();
@@ -45,7 +55,11 @@ Route::post('/login', function (Request $request) {
                 }
                 $guestOrder->delete();
             } else {
-                $guestOrder->update(['User_id' => $user->id, 'Session_id' => null]);
+                // užívateľ nemal košík, priradíme mu ten hosťovský
+                $guestOrder->update([
+                    'User_id' => $user->id, 
+                    'Session_id' => null // už to nie je viazané na session
+                ]);
             }
         }
 
@@ -61,6 +75,14 @@ Route::post('/login', function (Request $request) {
 
     return back()->with('error', 'Nesprávne údaje');
 });
+
+
+
+
+
+
+
+
 
 Route::post('/registration', function (Request $request) {
     $request->validate([
